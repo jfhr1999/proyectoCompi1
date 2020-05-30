@@ -996,7 +996,7 @@ class dios {
             // fall through
           case 14: break;
           case 7:
-            { units.add(yytext()); System.out.println(yytext() + "  UNITS  " + yyline);
+            { units.add(yytext()); System.out.println(yytext() + "  UNITS  " + yyline());
             }
             // fall through
           case 15: break;
