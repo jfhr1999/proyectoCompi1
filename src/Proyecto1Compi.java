@@ -10,13 +10,13 @@ public class Proyecto1Compi {
     }
     
     public static void generarJavalexer() throws SilentExit{
-        String[] path = new String[]{"src/Lexer.jflex"};
+        String[] path = new String[]{"src/scanner.jflex"};    //String que contiene el path al scanner en jflex
         jflex.Main.generate(path);
     }
     
     public static void leer(){
-        String[] command = new String[]{"src/ejemploSolidity.txt"};  
-        Yylex.main(command);
+        String[] command = new String[]{"src/ejemplo.txt"};  //String que contiene el path del .txt a leer
+        Scanner.main(command);
     }
     
 }
