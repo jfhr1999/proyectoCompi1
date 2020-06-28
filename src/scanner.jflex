@@ -1,4 +1,5 @@
 import java.util.*;
+import java_cup.runtime.Symbol;
 
 %%
 
@@ -6,6 +7,15 @@ import java.util.*;
 %standalone
 %line
 %column
+%cup
+
+      private Symbol symbol(int type) {
+        return new Symbol(type, yyline, yycolumn);
+      }
+      private Symbol symbol(int type, Object value) {
+        return new Symbol(type, yyline, yycolumn, value);
+      }
+
 ALPHA = [A-Za-z]
 DIGIT = [0-9]
 HEX = [A-F]
