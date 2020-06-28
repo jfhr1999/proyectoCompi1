@@ -1,0 +1,58 @@
+"Este es un String"
+'Este es otro String\n'
+'Este es otro String\j' //caracter de escape no valido
+
+"ljhgsdkjaghsdf ;  //String sin cerrar
+
+
+
+
+//Ahora vienen numeros enteros
+
+45
+
+89
+
+
+
+123
+324
++304  //separar el operdor del numero
+
+
+-989  //separar el operdor del numero
+
+
+
+//Ahora vienen numeros flotantes
+
+1.23
+
+123.345
+
+123.  // no debe ser error
+
+123.22
+
+.22  //no es error
+
++1.23   //separar el operdor del numero
+
+-123.345 //separar el operdor del numero
+
+
+//Con exponentes
+
+3.0e5  
+
+1.5e-4 
+
+-123e10  
+123e  //error no tiene nada despues del exponente
+
+5.4e3.4 // error el numero despes del e tiene que ser entero. Puede separar los tokens
+
+
+hex"001122FF"
+hex'001122FF'
+hex"001122KF"  // error porque contiene un caracter que no es valido en hex. Puede presentarlo como string 

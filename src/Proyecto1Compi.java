@@ -15,8 +15,8 @@ public class Proyecto1Compi {
     }
     
     public static void leer(){
-        String[] command = new String[]{"src/ejemplo.txt"};  //String que contiene el path del .txt a leer
+        String[] command = new String[]{"src/codigo solidity.txt"};  //String que contiene el path del .txt a leer
         Scanner.main(command);
     }
-    
+ 
 }

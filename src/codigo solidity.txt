@@ -1,0 +1,28 @@
+pragma solidity ^0.4.11;
+
+contract Oracle {
+  struct Request {
+    bytes data;
+  }
+  Request[] requests; 
+  
+  function query(bytes data, function(bytes memory) external callback) {
+    requests.push(Request(data, callback));
+    NewRequest(requests.length - 1);
+  }
+  function reply(uint requestID, bytes response) {
+    // Aquí se revisa que la respuesta viene de una fuente de confianza
+    requests[requestID].callback(response);
+  }
+}
+
+contract OracleUser {
+  Oracle constant oracle; // contrato conocido
+  function buySomething() {
+    oracle.query("USD", this.oracleResponse);
+  }
+  function oracleResponse(bytes response) {
+    require(msg.sender == address(oracle));
+    // Usar los datos
+  }
+}

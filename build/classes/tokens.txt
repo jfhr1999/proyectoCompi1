@@ -1,0 +1,29 @@
+/**Con este ejemplo se quiere probar los diferentes tipos de comentarios y 
+ademas que reconozca tanto las palabras reservadas como los operadores*/
+
+
+
+address  as  bool  break  
+byte  bytes   constructor  continue 
+contract  delete  do  else  enum false for    
+from function hex if  import   int   internal  
+mapping modifier  payable Pragma  private  public  return  
+returns  solidity  string  struct  this  true  ufixed  
+uint  var  view  while
+uint8 uint32 uint16 uint64 uint128
+int8 int32 int16 int64 int128
+bytes4 bytes8 bytes16 bytes32 bytes64 bytes128
+
+
+balance  call  callcode  delegatecall  send  transfer
+days   ether  finney  hours  minutes  seconds  szabo  weeks  wei  years
+
+
+//No hay errores en este archivo
+
+
+!	&&	^	==	!=	||	<=	<	>=	>	&	|	
+^	~	+	-	*	/	%	**	<<	>>	=	,	;	.	
+( 	) 	[ 	]	?	:	{	}	+=	-=	*=	/=
+
+
