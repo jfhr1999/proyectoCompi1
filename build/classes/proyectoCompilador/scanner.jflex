@@ -1,13 +1,15 @@
+package proyectoCompilador;
 import java.util.*;
-import java_cup.runtime.Symbol;
+import java_cup.runtime.*;
 
 %%
 
 %class Scanner
-%standalone
 %line
 %column
 %cup
+
+%{
 
       private Symbol symbol(int type) {
         return new Symbol(type, yyline, yycolumn);
@@ -15,6 +17,7 @@ import java_cup.runtime.Symbol;
       private Symbol symbol(int type, Object value) {
         return new Symbol(type, yyline, yycolumn, value);
       }
+%}
 
 ALPHA = [A-Za-z]
 DIGIT = [0-9]
