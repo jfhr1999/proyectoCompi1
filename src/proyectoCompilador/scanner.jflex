@@ -1,22 +1,16 @@
 package proyectoCompilador;
-import java.util.*;
-import java_cup.runtime.*;
+import static proyectoCompilador.Tokens.*;
 
 %%
 
 %class Scanner
+%type Tokens
 %line
 %column
 %cup
 
 %{
-
-      private Symbol symbol(int type) {
-        return new Symbol(type, yyline, yycolumn);
-      }
-      private Symbol symbol(int type, Object value) {
-        return new Symbol(type, yyline, yycolumn, value);
-      }
+    public String lexeme;
 %}
 
 ALPHA = [A-Za-z]
@@ -24,8 +18,8 @@ DIGIT = [0-9]
 HEX = [A-F]
 POW2 = (2|4|8|16|32|64|128|256)
 Ident = {ALPHA}({ALPHA}|{DIGIT})*
-Op = ("&&"|"=="|"||"|"<<"|">>"|"**"|"!="|"<="|">="|"+="|"-="|"*="|"/="|"!"|"^"|"<"|">"|"&"|"|"|"^"|"~"|"+"|"-"|"*"|"/"|"%"|"="|","|";"|"."|"("|")"|"["|"]"|"?"|":"|"{"|"}")
-Reserved = ("bytes"{POW2}|"uint"{POW2}|"address"|"as"|"bool"|"break"|"bytes"|"byte"|"constructor"|"Pragma"|"continue"|"contract"|"delete"|"do"|"else"|"enum"|"false"|"for"|"from"|"function"|"hex"|"if"|"import"|"internal"|"int"|"mapping"|"modifier"|"payable"|"private"|"public"|"returns"|"return"|"solidity"|"string"|"struct"|"this"|"true"|"ufixed"|"uint"|"var"|"view"|"while")
+Op = ("<<"|">>"|"**"|"<"|">"|"&"|"|"|"~")
+Reserved = ("as"|"constructor"|"delete"|"from"|"hex"|"import"|"mapping"|"modifier"|"var"|"view")
 Transac = ("balance"|"callcode"|"call"|"delegatecall"|"send"|"transfer")
 Units = ("days"|"ether"|"finney"|"hours"|"minutes"|"seconds"|"szabo"|"weeks"|"wei"|"years")
 Scientific = {DIGIT}+"."?{DIGIT}*e("-"|"+")?{DIGIT}+
@@ -35,52 +29,64 @@ Escape = (\\(n|xNN|uNNN))
 Strings = (\"([^\"\\\r\n]|{Escape})*\"|\'([^\'\\\r\n]|{Escape})*\')
 Literals = ({Hexadecimal}|{Strings})
 Comments = ((\/\*([^\*]|(\*+[^\*\/]))*\*+\/)|(\/\/.*))
+Type = ("bytes"{POW2}|"int"{POW2}|"uint"{POW2}|"bool"|"byte"|"bytes"|"address"|"int"|"string"|"ufixed"|"uint")
+Mod = ("payable"|"internal")
+Ar_Op = ("+"|"-"|"*"|"/"|"%"|"+="|"-="|"*="|"/=")
+Bool_Op = ("=="|">="|">"|"<="|"<"|"!="|"||"|"&&"|"!")
+
 
 %{
-    ArrayList<String> identifiers = new ArrayList();
-    ArrayList<String> operators = new ArrayList();
-    ArrayList<String> reserved = new ArrayList();
-    ArrayList<String> transac = new ArrayList();
-    ArrayList<String> units = new ArrayList();
-    ArrayList<String> literals = new ArrayList();
-    ArrayList<String> errors = new ArrayList();
-    public void printList(ArrayList<String> list){
-        Collections.sort(list);
-        if(!list.isEmpty()){
-            for(String s : list){
-                System.out.println(s);
-            }
-            System.out.print("\n");
-        }
-    }
 %}
-
-%eof{
-    System.out.println("Token               Tipo               Linea");
-    printList(identifiers);
-    printList(operators);
-    printList(reserved);
-    printList(transac);
-    printList(units);
-    printList(literals);
-    if(!errors.isEmpty()){
-        System.out.println("\nErrores:\nError          Linea");
-        printList(errors);
-    }
-%eof}
 
 %%
 {Comments} {}
-{Literals} {literals.add(yytext() + "               Literal               " + String.valueOf(yyline+1));}
+{Literals} {lexeme=yytext(); return Literal;}
 {Numbers} { String str = yytext();
             while(str.substring(0, 1).equals("0")){
                 str = str.substring(1);
             }
-            literals.add(str + "               Literal               " + String.valueOf(yyline+1));}
-{Reserved} {reserved.add(yytext() + "               Palabras Reservadas               " + String.valueOf(yyline+1));}
-{Transac} {transac.add(yytext() + "               TRANSAC               " + String.valueOf(yyline+1));}
-{Units} {units.add(yytext() + "               UNITS               " + String.valueOf(yyline+1));}
-{Op} {operators.add(yytext() + "               Operadores               " + String.valueOf(yyline+1));}
-{Ident} {identifiers.add(yytext() + "               Identificadores               " + String.valueOf(yyline+1));}
+            lexeme=str; return Literal;}
+(pragma|Pragma) {lexeme=yytext(); return Pragma;}
+(solidity) {lexeme=yytext(); return Solidity;}
+(contract) {lexeme=yytext(); return Contract;}
+(enum) {lexeme=yytext(); return Enum;}
+{Type} {lexeme=yytext(); return Var_Type;}
+(public) {lexeme=yytext(); return Public;}
+(private) {lexeme=yytext(); return Private;}
+(struct) {lexeme=yytext(); return Struct;}
+(function) {lexeme=yytext(); return Function;}
+{Mod} {lexeme=yytext(); return Modifier;}
+(returns) {lexeme=yytext(); return Returns;}
+(return) {lexeme=yytext(); return Return;}
+(true) {lexeme=yytext(); return True;}
+(false) {lexeme=yytext(); return False;}
+(this) {lexeme=yytext(); return This;}
+(while) {lexeme=yytext(); return While;}
+(do) {lexeme=yytext(); return Do;}
+(for) {lexeme=yytext(); return For;}
+(if) {lexeme=yytext(); return If;}
+(else) {lexeme=yytext(); return Else;}
+(break) {lexeme=yytext(); return Break;}
+(continue) {lexeme=yytext(); return Continue;}
+("^") {lexeme=yytext(); return Caret;}
+("{") {lexeme=yytext(); return O_Braces;}
+("}") {lexeme=yytext(); return C_Braces;}
+("[") {lexeme=yytext(); return O_Brackets;}
+("]") {lexeme=yytext(); return C_Brackets;}
+("(") {lexeme=yytext(); return O_Parentheses;}
+(")") {lexeme=yytext(); return C_Parentheses;}
+("=") {lexeme=yytext(); return Equal;}
+(",") {lexeme=yytext(); return Comma;}
+(";") {lexeme=yytext(); return Semicolon;}
+(".") {lexeme=yytext(); return Period;}
+("?") {lexeme=yytext(); return QuestionMark;}
+(":") {lexeme=yytext(); return Colon;}
+{Reserved} {lexeme=yytext(); return Reserved;}
+{Transac} {lexeme=yytext(); return Transac;}
+{Units} {lexeme=yytext(); return Units;}
+{Ar_Op} {lexeme=yytext(); return Arithmetic_Op;}
+{Bool_Op} {lexeme=yytext(); return Boolean_Op;}
+{Op} {lexeme=yytext(); return Op;}
+{Ident} {lexeme=yytext(); return Identifier;}
 [\r\n" "\t] {}
-. {errors.add(yytext() + "          " + String.valueOf(yyline+1));}
+. {lexeme=yytext(); return ERROR;}
