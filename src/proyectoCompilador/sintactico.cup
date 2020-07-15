@@ -1,0 +1,124 @@
+package analisis;
+
+import java_cup.runtime.Symbol;
+
+//PARSER 
+parser code
+{://Codigo visible
+    
+    public void syntax_error(Symbol s){
+        System.out.println("Error R de sintaxis: "+ s.value +" Linea "+(s.left+1)+" columna "+(s.right+1) );
+    }
+
+    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{ 
+        System.out.println("Error NR de sintaxis: "+ s.value +" Linea "+(s.left+1)+" columna "+(s.right+1) );
+    }
+
+:}
+
+action code
+{://Codigo de usuario
+    String tmp="";
+:}
+
+
+terminal String ID,ENTERO,CADENA,INT1,CHAR1,PUB,PRI,VOI;
+terminal PAR_A, PAR_C, LLAV_A, LLAV_C, COMA, PYCOMA,ASIGNA,PRINT;
+
+nonterminal String VIS,TIPO;
+nonterminal  INICIO, SENTENCIAS, S, CUERPO, C, LIST, L;
+
+
+//agregamos la precedencia
+
+//precedence left MAS, MENOS;
+//precedence left POR, DIV; 
+
+
+start with INICIO;
+
+INICIO ::= SENTENCIAS
+                {:
+                    System.out.println(tmp);
+                    tmp="";
+                :}
+;
+
+SENTENCIAS ::= SENTENCIAS S
+    |S
+;
+
+S ::= VIS:vi TIPO:tip ID:id PAR_A 
+                {:
+                    if(!tip.equalsIgnoreCase("void")){
+                        tmp+="funcion "+vi+" "+tip+" "+id+"(";
+                    }else{
+                        tmp+="metodo "+vi+" "+id+"(";
+                    }
+                :}
+    LIST PAR_C LLAV_A
+                {:
+                    tmp+=")"+"{\n";
+                :}
+    CUERPO LLAV_C
+                {:
+                    tmp+="}\n";
+                :}
+
+    | error PYCOMA
+    | error LLAV_C
+;
+
+LIST ::= LIST COMA
+                {:
+                    tmp+=",";
+                :} 
+    L
+
+    | L
+;
+
+L ::= TIPO:tip ID:id
+                {:
+                    tmp+=tip+" "+id;
+                :}
+;
+
+CUERPO ::= CUERPO C
+    | C
+;
+
+C ::= TIPO:tip ID:id ASIGNA ENTERO:num PYCOMA 
+                {:
+                    tmp+=tip+" "+id+"="+num+";\n";
+                :}
+    |PRINT PAR_A CADENA:cad PAR_C PYCOMA
+                {:
+                    tmp+="imprimir("+cad+");\n";
+                :}
+;
+
+TIPO ::= INT1:in 
+                {:
+                    RESULT=in;
+                :}
+    | CHAR1:ch
+                {:
+                    RESULT=ch;
+                :}
+    | VOI:vo
+                {:
+                    RESULT=vo;
+                :}
+;
+
+VIS ::= PUB:pu
+                {:
+                    RESULT=pu;
+                :}
+    | PRI:pr 
+                {:
+                    RESULT=pr;
+                :}
+;
+

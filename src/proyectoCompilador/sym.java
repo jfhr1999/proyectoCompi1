@@ -8,73 +8,43 @@ package proyectoCompilador;
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
-  public static final int Else = 7;
-  public static final int Parentesis_c = 22;
-  public static final int For = 10;
-  public static final int Parentesis_a = 21;
-  public static final int Suma = 12;
-  public static final int Numero = 30;
-  public static final int Corchete_c = 26;
-  public static final int Op_booleano = 20;
-  public static final int ERROR = 32;
-  public static final int Corchete_a = 25;
-  public static final int Identificador = 29;
-  public static final int Int = 31;
-  public static final int Comillas = 3;
-  public static final int Llave_c = 24;
-  public static final int Llave_a = 23;
-  public static final int Op_relacional = 17;
-  public static final int P_coma = 28;
-  public static final int T_dato = 4;
-  public static final int Main = 27;
-  public static final int Cadena = 5;
+  public static final int PYCOMA = 15;
+  public static final int CADENA = 4;
+  public static final int LLAV_C = 13;
+  public static final int LLAV_A = 12;
+  public static final int PAR_C = 11;
+  public static final int PAR_A = 10;
+  public static final int ID = 2;
+  public static final int COMA = 14;
+  public static final int INT1 = 5;
   public static final int EOF = 0;
-  public static final int Division = 15;
-  public static final int Op_incremento = 19;
-  public static final int Op_atribucion = 18;
-  public static final int Resta = 13;
-  public static final int If = 6;
-  public static final int Linea = 2;
+  public static final int PRI = 8;
+  public static final int PRINT = 17;
   public static final int error = 1;
-  public static final int Op_logico = 16;
-  public static final int Do = 8;
-  public static final int Igual = 11;
-  public static final int While = 9;
-  public static final int Multiplicacion = 14;
+  public static final int PUB = 7;
+  public static final int ASIGNA = 16;
+  public static final int ENTERO = 3;
+  public static final int CHAR1 = 6;
+  public static final int VOI = 9;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
-  "Linea",
-  "Comillas",
-  "T_dato",
-  "Cadena",
-  "If",
-  "Else",
-  "Do",
-  "While",
-  "For",
-  "Igual",
-  "Suma",
-  "Resta",
-  "Multiplicacion",
-  "Division",
-  "Op_logico",
-  "Op_relacional",
-  "Op_atribucion",
-  "Op_incremento",
-  "Op_booleano",
-  "Parentesis_a",
-  "Parentesis_c",
-  "Llave_a",
-  "Llave_c",
-  "Corchete_a",
-  "Corchete_c",
-  "Main",
-  "P_coma",
-  "Identificador",
-  "Numero",
-  "Int",
-  "ERROR"
+  "ID",
+  "ENTERO",
+  "CADENA",
+  "INT1",
+  "CHAR1",
+  "PUB",
+  "PRI",
+  "VOI",
+  "PAR_A",
+  "PAR_C",
+  "LLAV_A",
+  "LLAV_C",
+  "COMA",
+  "PYCOMA",
+  "ASIGNA",
+  "PRINT"
   };
 }
 

@@ -1,0 +1,4 @@
+Public void  Metodo1(int j, char c){
+print("hola mundo");
+Int x=5;
+}

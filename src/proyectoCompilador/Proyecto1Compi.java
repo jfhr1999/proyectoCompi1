@@ -1,34 +1,59 @@
 package proyectoCompilador;
 
+import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
+import java.io.StringReader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java_cup.runtime.ComplexSymbolFactory;
 import jflex.exceptions.SilentExit;
 
 
 
 public class Proyecto1Compi {
-
-    
     public static void main(String[] args) throws SilentExit, Exception {
         //generarJavalexer();                               //-----> genera el archivo Scanner.java
         //generarJavaparser();                              //-----> genera los archivos parser.java y sym.java
-        parsear();                                        //-----> ejecuta el proceso de parseo
+        try {
+            String ST = new String(Files.readAllBytes(Paths.get("src/proyectoCompilador/p.txt")));
+            String p = "public int main(){\n int x \n}";
+            System.out.print(ST);
+            System.out.print("\n");
+            
+            scanner lex = new scanner(new BufferedReader (new StringReader(ST)));
+            
+            parser par = new parser(lex);
+            par.parse();
+            
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } catch (Exception ee){
+            ee.printStackTrace();
+        }
     }
     
     public static void generarJavalexer() throws SilentExit{
-        String[] path = new String[]{"src/proyectoCompilador/minijava.flex"};    //String que contiene el path al scanner en jflex
-        jflex.Main.generate(path);
+        String ruta = "src/analisis/";
+        String opcFlex[] = { ruta + "lexico.jflex", "-d", ruta };
+        jflex.Main.generate(opcFlex);
     }
     
     public static void generarJavaparser(){
+        
+        String ruta = "src/analisis/";
+        String opcCUP[] = { "-destdir", ruta, "-parser", "parser", ruta + "sintactico.cup" };
+       
         String[] param = new String[5];
         param[0] = "-destdir";
         param[1] = "src/proyectoCompilador";
         param[2] = "-parser";
         param[3] = "parser";
-        param[4] = "src/proyectoCompilador/minijava.cup";
+        param[4] = "src/proyectoCompilador/sintactico.cup";
         try{
             java_cup.Main.main(param);
         }
@@ -36,18 +61,4 @@ public class Proyecto1Compi {
             System.out.print(e.toString());
         }
     }
-    
-    
-    public static void parsear() throws Exception{
-        try {
-            Scanner scan = new Scanner(new FileReader("C:\\Users\\josef\\Desktop\\Github\\proyectoCompi1\\src\\proyectoCompilador\\p.txt"));
-            
-            parser par = new parser(scan);
-            par.parse();
-            
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Proyecto1Compi.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
- 
 }
