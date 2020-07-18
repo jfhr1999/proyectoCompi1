@@ -19,13 +19,13 @@ public class Proyecto1Compi {
     public static void main(String[] args) throws SilentExit, Exception {
         //generarJavalexer();                               //-----> genera el archivo Scanner.java
         //generarJavaparser();                              //-----> genera los archivos parser.java y sym.java
-        try {
+       /* try {
             String ST = new String(Files.readAllBytes(Paths.get("src/proyectoCompilador/p.txt")));
             String p = "public int main(){\n int x \n}";
             System.out.print(ST);
             System.out.print("\n");
             
-            scanner lex = new scanner(new BufferedReader (new StringReader(ST)));
+            Scanner lex = new Scanner(new BufferedReader (new StringReader(p)));
             
             parser par = new parser(lex);
             par.parse();
@@ -34,18 +34,19 @@ public class Proyecto1Compi {
             ex.printStackTrace();
         } catch (Exception ee){
             ee.printStackTrace();
-        }
+        }*/
+       int x = ["hola"]; 
     }
     
     public static void generarJavalexer() throws SilentExit{
-        String ruta = "src/analisis/";
-        String opcFlex[] = { ruta + "lexico.jflex", "-d", ruta };
+        String ruta = "src/proyectoCompilador";
+        String opcFlex[] = { ruta + "/scannerCup.jflex", "-d", ruta };
         jflex.Main.generate(opcFlex);
     }
     
     public static void generarJavaparser(){
         
-        String ruta = "src/analisis/";
+        String ruta = "src/proyectoCompilador";
         String opcCUP[] = { "-destdir", ruta, "-parser", "parser", ruta + "sintactico.cup" };
        
         String[] param = new String[5];

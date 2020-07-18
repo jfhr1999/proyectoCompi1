@@ -7,7 +7,6 @@ import static proyectoCompilador.Tokens.*;
 %type Tokens
 %line
 %column
-%cup
 
 %{
     public String lexeme;
@@ -34,11 +33,8 @@ Mod = ("payable"|"internal")
 Ar_Op = ("+"|"-"|"*"|"/"|"%"|"+="|"-="|"*="|"/=")
 Bool_Op = ("=="|">="|">"|"<="|"<"|"!="|"||"|"&&"|"!")
 
-
-%{
-%}
-
 %%
+
 {Comments} {}
 {Literals} {lexeme=yytext(); return Literal;}
 {Numbers} { String str = yytext();

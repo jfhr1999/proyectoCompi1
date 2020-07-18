@@ -1,10 +1,9 @@
-package analisis;
+package proyecto1Compi;
 
 import java_cup.runtime.Symbol;
 
 //PARSER 
-parser code
-{://Codigo visible
+parser code {:
     
     public void syntax_error(Symbol s){
         System.out.println("Error R de sintaxis: "+ s.value +" Linea "+(s.left+1)+" columna "+(s.right+1) );
@@ -22,11 +21,12 @@ action code
 :}
 
 
-terminal String ID,ENTERO,CADENA,INT1,CHAR1,PUB,PRI,VOI;
-terminal PAR_A, PAR_C, LLAV_A, LLAV_C, COMA, PYCOMA,ASIGNA,PRINT;
+terminal Pragma,Solidity,Caret,Contract,Enum,Public,Private,Struct,Function,Returns,Return,This,While,Do,For,If,Else,Break,Continue,O_Braces,C_Braces,O_Brackets,C_Brackets,O_Parentheses,C_Parentheses,Equal,Comma,Semicolon,Period,QuestionMark,Colon;
+terminal String Identifier,String,Hexadecimal,Version,Boolean_Value,ERROR;
+terminal Integer Number;
 
-nonterminal String VIS,TIPO;
-nonterminal  INICIO, SENTENCIAS, S, CUERPO, C, LIST, L;
+nonterminal String Var_Type,Modifier,Transac,Arithmetic_Op,Boolean_Op,Units,Reserved,Op,AA,EnumIds,Privacy,ArrayValue,Array,Literal;
+nonterminal START,CONTRACT,ENUM,VAR,STRUCT,FUNCTION,ASIGNATION,FUNC_CALL,EXPRESSION,IDENTIFIER,WHILE,FOR,DO,IF_ELSE,TERNARY,AR_OP,BOOL_OP,VAR_PRIMA,VAR_PRIMA_PRIMA_PRIMA,Var_PRIMA_PRIMA;
 
 
 //agregamos la precedencia
@@ -35,7 +35,36 @@ nonterminal  INICIO, SENTENCIAS, S, CUERPO, C, LIST, L;
 //precedence left POR, DIV; 
 
 
-start with INICIO;
+start with START;
+
+START ::= Pragma Solidity Version Semicolon CONTRACT;
+
+CONTRACT ::= Contract Identifier O_Braces AA C_Braces;
+
+AA ::= ENUM AA | VAR AA | STRUCT AA | FUNCTION AA |  ;
+
+ENUM ::= Enum Identifier O_Braces EnumIds C_Braces;
+
+EnumIds ::= Identifier Comma EnumIds | Identifier;
+
+VAR ::= Var_Type Var_PRIMA_PRIMA;
+
+VAR_PRIMA ::= Equal VAR_PRIMA_PRIMA_PRIMA |  ;
+
+VAR_PRIMA_PRIMA_PRIMA ::= Literal | Identifier | Array;
+
+Var_PRIMA_PRIMA ::= Privacy Identifier VAR_PRIMA | O_Brackets C_Brackets Identifier VAR_PRIMA;
+
+Literal ::= Number | String | Boolean_Value;
+
+Array ::= O_Brackets ArrayValue C_Brackets;
+
+ArrayValue ::= Integer ArrayValue | String ArrayValue | Boolean_Value ArrayValue | O_Brackets ArrayValue C_Brackets |  ;
+
+Privacy ::= Public | Private;
+
+
+
 
 INICIO ::= SENTENCIAS
                 {:
