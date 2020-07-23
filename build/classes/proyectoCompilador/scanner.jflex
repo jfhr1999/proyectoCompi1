@@ -30,8 +30,12 @@ Literals = ({Hexadecimal}|{Strings})
 Comments = ((\/\*([^\*]|(\*+[^\*\/]))*\*+\/)|(\/\/.*))
 Type = ("bytes"{POW2}|"int"{POW2}|"uint"{POW2}|"bool"|"byte"|"bytes"|"address"|"int"|"string"|"ufixed"|"uint")
 Mod = ("payable"|"internal")
-Ar_Op = ("+"|"-"|"*"|"/"|"%"|"+="|"-="|"*="|"/=")
-Bool_Op = ("=="|">="|">"|"<="|"<"|"!="|"||"|"&&"|"!")
+Most_Important_Op = ("*"|"/"|"%")
+Least_Important_Op = ("+"|"-")
+Greater_Lesser_Op = (">="|">"|"<="|"<")
+Same_Different_Op = ("=="|"!=")
+Equals = ("+="|"-="|"*="|"/=")
+
 
 %%
 
@@ -77,11 +81,17 @@ Bool_Op = ("=="|">="|">"|"<="|"<"|"!="|"||"|"&&"|"!")
 (".") {lexeme=yytext(); return Period;}
 ("?") {lexeme=yytext(); return QuestionMark;}
 (":") {lexeme=yytext(); return Colon;}
+("&&") {lexeme=yytext(); return And;}
+("||") {lexeme=yytext(); return Or;}
+("!") {lexeme=yytext(); return ExclamationMark;}
+{Most_Important_Op} {lexeme=yytext(); return Most_Important_Op;}
+{Least_Important_Op} {lexeme=yytext(); return Least_Important_Op;}
+{Greater_Lesser_Op} {lexeme=yytext(); return Greater_Lesser_Op;}
+{Most_Important_Op} {lexeme=yytext(); return Same_Different_Op;}
+{Equals} {lexeme=yytext(); return Equals;}
 {Reserved} {lexeme=yytext(); return Reserved;}
 {Transac} {lexeme=yytext(); return Transac;}
 {Units} {lexeme=yytext(); return Units;}
-{Ar_Op} {lexeme=yytext(); return Arithmetic_Op;}
-{Bool_Op} {lexeme=yytext(); return Boolean_Op;}
 {Op} {lexeme=yytext(); return Op;}
 {Ident} {lexeme=yytext(); return Identifier;}
 [\r\n" "\t] {}

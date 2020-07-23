@@ -1,6 +1,7 @@
 package proyecto1Compi;
 
 import java_cup.runtime.Symbol;
+// javacupsymbol empty
 
 //PARSER 
 parser code {:
@@ -21,133 +22,132 @@ action code
 :}
 
 
-terminal Pragma,Solidity,Caret,Contract,Enum,Public,Private,Struct,Function,Returns,Return,This,While,Do,For,If,Else,Break,Continue,O_Braces,C_Braces,O_Brackets,C_Brackets,O_Parentheses,C_Parentheses,Equal,Comma,Semicolon,Period,QuestionMark,Colon;
-terminal String Identifier,String,Hexadecimal,Version,Boolean_Value,ERROR;
+terminal ExclamationMark,And,Or,Most_Important_Op,Least_Important_Op,Greater_Lesser_Op,Same_Different_Op,Equals,Pragma,Solidity,Caret,Contract,Enum,Public,Private,Struct,Function,Returns,Return,This,While,Do,For,If,Else,Break,Continue,O_Braces,C_Braces,O_Brackets,C_Brackets,O_Parentheses,C_Parentheses,Equal,Comma,Semicolon,Period,QuestionMark,Colon;
+terminal String Identifier,String,Hexadecimal,Version,Boolean_Value,ERROR,Modifier;
 terminal Integer Number;
 
-nonterminal String Var_Type,Modifier,Transac,Arithmetic_Op,Boolean_Op,Units,Reserved,Op,AA,EnumIds,Privacy,ArrayValue,Array,Literal;
-nonterminal START,CONTRACT,ENUM,VAR,STRUCT,FUNCTION,ASIGNATION,FUNC_CALL,EXPRESSION,IDENTIFIER,WHILE,FOR,DO,IF_ELSE,TERNARY,AR_OP,BOOL_OP,VAR_PRIMA,VAR_PRIMA_PRIMA_PRIMA,Var_PRIMA_PRIMA;
-
-
-//agregamos la precedencia
-
-//precedence left MAS, MENOS;
-//precedence left POR, DIV; 
+nonterminal String Var_Type,Transac,Modifiers,Arithmetic_Op,Boolean_Op,Units,Reserved,Op,AA,EnumIds,Privacy,ArrayValue,Array,StructVar,Function_Parameters;
+nonterminal Identifiers,Body_Identifier,Body_Identifier_PRIMA,Body_Identifier_PRIMA_PRIMA,Body_Identifier_PRIMA_PRIMA_PRIMA,Body_Identifier_PRIMA_PRIMA_PRIMA_PRIMA,START,CONTRACT,ENUM,VAR,STRUCT,FUNCTION,ASIGNATION,FUNC_CALL,expression,WHILE,FOR,DO,IF,ELSE,AR_OP,BOOL_OP,VAR_PRIMA,VAR_PRIMA_PRIMA_PRIMA,Var_PRIMA_PRIMA,StructVar_PRIMA,RETURNS,FUNC_VAR,primaryExpression,expression_prima,Body_Identifier,SENTENCIAS,RETURN,RETURN_PRIMA;
 
 
 start with START;
 
-START ::= Pragma Solidity Version Semicolon CONTRACT;
 
-CONTRACT ::= Contract Identifier O_Braces AA C_Braces;
+//Estructura inicial
+
+START ::= Pragma Solidity Version Semicolon CONTRACT ;
+
+CONTRACT ::= Contract Identifier O_Braces AA C_Braces ;
 
 AA ::= ENUM AA | VAR AA | STRUCT AA | FUNCTION AA |  ;
 
-ENUM ::= Enum Identifier O_Braces EnumIds C_Braces;
 
-EnumIds ::= Identifier Comma EnumIds | Identifier;
+//Sentencias
 
-VAR ::= Var_Type Var_PRIMA_PRIMA;
+SENTENCIAS ::= VAR SENTENCIAS | ASIGNATION SENTENCIAS | WHILE SENTENCIAS | FOR SENTENCIAS | DO SENTENCIAS | IF SENTENCIAS | FUNC_CALL SENTENCIAS | Return Identifier Semicolon SENTENCIAS | Break Semicolon SENTENCIAS | Continue Semicolon SENTENCIAS |  ;
+
+
+//Identificadores
+
+Identifiers ::= Identifier | Body_Identifier ;
+
+Body_Identifier ::= Identifier Body_Identifier_PRIMA | This Period Body_Identifier_PRIMA_PRIMA_PRIMA ;
+
+Body_Identifier_PRIMA ::= Period Identifier Body_Identifier_PRIMA_PRIMA |  ;
+
+Body_Identifier_PRIMA_PRIMA ::= O_Parentheses C_Parentheses |  ;
+
+Body_Identifier_PRIMA_PRIMA_PRIMA ::= Identifier Body_Identifier_PRIMA_PRIMA_PRIMA_PRIMA ;
+
+Body_Identifier_PRIMA_PRIMA_PRIMA_PRIMA ::= O_Parentheses C_Parentheses |  ;
+
+
+//Enums
+
+ENUM ::= Enum Identifier O_Braces EnumIds C_Braces ;
+
+EnumIds ::= Identifier Comma EnumIds | Identifier ;
+
+
+//Declaración de variables
+
+VAR ::= Var_Type Var_PRIMA_PRIMA Semicolon ;
 
 VAR_PRIMA ::= Equal VAR_PRIMA_PRIMA_PRIMA |  ;
 
-VAR_PRIMA_PRIMA_PRIMA ::= Literal | Identifier | Array;
+VAR_PRIMA_PRIMA_PRIMA ::= expression | Array ;
 
-Var_PRIMA_PRIMA ::= Privacy Identifier VAR_PRIMA | O_Brackets C_Brackets Identifier VAR_PRIMA;
+Var_PRIMA_PRIMA ::= Privacy Identifier VAR_PRIMA | O_Brackets C_Brackets Identifier VAR_PRIMA | Identifier ;
 
-Literal ::= Number | String | Boolean_Value;
-
-Array ::= O_Brackets ArrayValue C_Brackets;
+Array ::= O_Brackets ArrayValue C_Brackets ;
 
 ArrayValue ::= Integer ArrayValue | String ArrayValue | Boolean_Value ArrayValue | O_Brackets ArrayValue C_Brackets |  ;
 
-Privacy ::= Public | Private;
+Privacy ::= Public | Private ;
 
 
+//Structs
+
+STRUCT ::= Struct Identifier O_Braces StructVar C_Braces ;
+
+StructVar ::= VAR StructVar_PRIMA ;
+
+StructVar_PRIMA ::= StructVar |  ;
 
 
-INICIO ::= SENTENCIAS
-                {:
-                    System.out.println(tmp);
-                    tmp="";
-                :}
-;
+//Funciones
+//INCOMPLETO puede que tenga que ir arriba
+FUNCTION ::= Function Identifier O_Parentheses Function_Parameters C_Parentheses Modifiers RETURNS O_Braces SENTENCIAS C_Braces ;
 
-SENTENCIAS ::= SENTENCIAS S
-    |S
-;
+Function_Parameters ::= Var_Type Identifier Function_Parameters_PRIMA |  ;
 
-S ::= VIS:vi TIPO:tip ID:id PAR_A 
-                {:
-                    if(!tip.equalsIgnoreCase("void")){
-                        tmp+="funcion "+vi+" "+tip+" "+id+"(";
-                    }else{
-                        tmp+="metodo "+vi+" "+id+"(";
-                    }
-                :}
-    LIST PAR_C LLAV_A
-                {:
-                    tmp+=")"+"{\n";
-                :}
-    CUERPO LLAV_C
-                {:
-                    tmp+="}\n";
-                :}
+Function_Parameters_PRIMA ::= Comma Var_Type Identifier Function_Parameters_PRIMA |  ;
 
-    | error PYCOMA
-    | error LLAV_C
-;
+Modifiers ::= Public Modifiers | Private Modifiers | Modifier Modifiers |  ;
 
-LIST ::= LIST COMA
-                {:
-                    tmp+=",";
-                :} 
-    L
+RETURNS ::= Returns O_Parentheses Var_Type Identifier C_Parentheses |  ;
 
-    | L
-;
+RETURN ::= Return RETURN_PRIMA ;
 
-L ::= TIPO:tip ID:id
-                {:
-                    tmp+=tip+" "+id;
-                :}
-;
+RETURN_PRIMA ::= Identifiers | expression ;
 
-CUERPO ::= CUERPO C
-    | C
-;
 
-C ::= TIPO:tip ID:id ASIGNA ENTERO:num PYCOMA 
-                {:
-                    tmp+=tip+" "+id+"="+num+";\n";
-                :}
-    |PRINT PAR_A CADENA:cad PAR_C PYCOMA
-                {:
-                    tmp+="imprimir("+cad+");\n";
-                :}
-;
+//Asignacion de variables
+//puede estar en funcion
+ASIGNATION ::= Identifiers Equal ASIGNATION_PRIMA Semicolon ;
 
-TIPO ::= INT1:in 
-                {:
-                    RESULT=in;
-                :}
-    | CHAR1:ch
-                {:
-                    RESULT=ch;
-                :}
-    | VOI:vo
-                {:
-                    RESULT=vo;
-                :}
-;
+ASIGNATION_PRIMA ::= expression | Array ;
 
-VIS ::= PUB:pu
-                {:
-                    RESULT=pu;
-                :}
-    | PRI:pr 
-                {:
-                    RESULT=pr;
-                :}
-;
 
+//LLamadas a función
+//puede estar en funcion
+FUNC_CALL ::= Identifier O_Parentheses FUNC_CALL_PARAMETERS C_Parentheses Semicolon ;
+
+FUNC_CALL_PARAMETERS ::= Identifier FUNC_CALL_PARAMETERS_PRIMA |  ;
+
+FUNC_CALL_PARAMETERS_PRIMA ::= Comma Function_Parameters_PRIMA |  ;
+
+
+//Expresiones
+//puede estar en funcion
+expression ::= O_Parentheses expression C_Parentheses expression_prima | Least_Important_Op expression expression_prima | ExclamationMark expression expression_prima | primaryExpression expression_prima ;
+
+expression_prima ::= Most_Important_Op expression expression_prima | Least_Important_Op expression expression_prima | Greater_Lesser_Op expression expression_prima | Same_Different_Op expression expression_prima | And expression expression_prima | Or expression expression_prima | expression QuestionMark expression Colon expression expression_prima | Equals expression expression_prima | Equal expression expression_prima |  ;
+
+primaryExpression ::= Number | Hexadecimal | String | Boolean_Value | Identifier O_Parentheses FUNC_CALL_PARAMETERS C_Parentheses | Identifiers;
+
+
+//Estructuras de control
+//puede estar en función
+WHILE ::= While O_Parentheses expression C_Parentheses O_Braces SENTENCIAS C_Braces ;
+
+FOR ::= For O_Parentheses ASIGNATION Semicolon expression Semicolon expression C_Parentheses O_Braces SENTENCIAS C_Braces ;
+
+DO ::= Do O_Braces SENTENCIAS C_Braces While O_Braces expression C_Parentheses Semicolon ;
+
+IF ::= If O_Parentheses expression C_Parentheses O_Braces SENTENCIAS C_Braces ELSE ;
+
+ELSE ::= Else O_Braces SENTENCIAS C_Braces |  ;
+
+
+//Errors
