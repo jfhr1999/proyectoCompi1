@@ -27,7 +27,7 @@ terminal String Identifier,String,Hexadecimal,Version,Boolean_Value,ERROR,Modifi
 terminal Integer Number;
 
 nonterminal String Var_Type,Transac,Modifiers,Arithmetic_Op,Boolean_Op,Units,Reserved,Op,AA,EnumIds,Privacy,ArrayValue,Array,StructVar,Function_Parameters;
-nonterminal Identifiers,Body_Identifier,Body_Identifier_PRIMA,Body_Identifier_PRIMA_PRIMA,Body_Identifier_PRIMA_PRIMA_PRIMA,Body_Identifier_PRIMA_PRIMA_PRIMA_PRIMA,START,CONTRACT,ENUM,VAR,STRUCT,FUNCTION,ASIGNATION,FUNC_CALL,expression,WHILE,FOR,DO,IF,ELSE,AR_OP,BOOL_OP,VAR_PRIMA,VAR_PRIMA_PRIMA_PRIMA,Var_PRIMA_PRIMA,StructVar_PRIMA,RETURNS,FUNC_VAR,primaryExpression,expression_prima,Body_Identifier,SENTENCIAS,RETURN,RETURN_PRIMA;
+nonterminal FUNC_CALL_PARAMETERS,FUNC_CALL_PARAMETERS_PRIMA,ASIGNATION_PRIMA,Function_Parameters_PRIMA,ArrayValue_PRIMA,ArrayValue_PRIMA_PRIMA,Identifiers,Body_Identifier,Body_Identifier_PRIMA,Body_Identifier_PRIMA_PRIMA,Body_Identifier_PRIMA_PRIMA_PRIMA,Body_Identifier_PRIMA_PRIMA_PRIMA_PRIMA,START,CONTRACT,ENUM,VAR,STRUCT,FUNCTION,ASIGNATION,FUNC_CALL,expression,WHILE,FOR,DO,IF,ELSE,AR_OP,BOOL_OP,VAR_PRIMA,VAR_PRIMA_PRIMA_PRIMA,Var_PRIMA_PRIMA,StructVar_PRIMA,RETURNS,FUNC_VAR,primaryExpression,expression_prima,SENTENCIAS,RETURN,RETURN_PRIMA;
 
 
 start with START;
@@ -79,9 +79,13 @@ VAR_PRIMA_PRIMA_PRIMA ::= expression | Array ;
 
 Var_PRIMA_PRIMA ::= Privacy Identifier VAR_PRIMA | O_Brackets C_Brackets Identifier VAR_PRIMA | Identifier ;
 
-Array ::= O_Brackets ArrayValue C_Brackets ;
+Array ::= O_Brackets ArrayValue ArrayValue_PRIMA C_Brackets ;
 
-ArrayValue ::= Integer ArrayValue | String ArrayValue | Boolean_Value ArrayValue | O_Brackets ArrayValue C_Brackets |  ;
+ArrayValue ::= Number | String | Boolean_Value | O_Brackets ArrayValue |  ;
+
+ArrayValue_PRIMA ::= Comma ArrayValue_PRIMA_PRIMA |  ;
+
+ArrayValue_PRIMA_PRIMA ::= Number ArrayValue_PRIMA | String ArrayValue_PRIMA | Boolean_Value ArrayValue_PRIMA | O_Brackets ArrayValue ArrayValue_PRIMA ;
 
 Privacy ::= Public | Private ;
 
@@ -125,7 +129,7 @@ FUNC_CALL ::= Identifier O_Parentheses FUNC_CALL_PARAMETERS C_Parentheses Semico
 
 FUNC_CALL_PARAMETERS ::= Identifier FUNC_CALL_PARAMETERS_PRIMA |  ;
 
-FUNC_CALL_PARAMETERS_PRIMA ::= Comma Function_Parameters_PRIMA |  ;
+FUNC_CALL_PARAMETERS_PRIMA ::= Function_Parameters_PRIMA |  ;
 
 
 //Expresiones
