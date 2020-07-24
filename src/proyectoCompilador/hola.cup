@@ -24,7 +24,7 @@ action code
 
 terminal Identifier,String,Hexadecimal,Version,Boolean_Value,ERROR,Modifier,Number,ExclamationMark,And,Or,Most_Important_Op,Least_Important_Op,Greater_Lesser_Op,Same_Different_Op,Equals,Pragma,Solidity,Caret,Contract,Enum,Public,Private,Struct,Function,Returns,Return,This,While,Do,For,If,Else,Break,Continue,O_Braces,C_Braces,O_Brackets,C_Brackets,O_Parentheses,C_Parentheses,Equal,Comma,Semicolon,Period,QuestionMark,Colon;
 
-nonterminal Enums,Variables,Structs,Functions,FUNC_CALL_PARAMETERS_PRIMA_PRIMA,Var_Type,Transac,Modifiers,Arithmetic_Op,Boolean_Op,Units,Reserved,Op,AA,EnumIds,Privacy,ArrayValue,Array,StructVar,Function_Parameters,FUNC_CALL_PARAMETERS,FUNC_CALL_PARAMETERS_PRIMA,ASIGNATION_PRIMA,Function_Parameters_PRIMA,ArrayValue_PRIMA,ArrayValue_PRIMA_PRIMA,Body_Identifier,Body_Identifier_PRIMA,START,CONTRACT,ENUM,VAR,STRUCT,FUNCTION,ASIGNATION,FUNC_CALL,expression,WHILE,FOR,DO,IF,ELSE,AR_OP,BOOL_OP,VAR_PRIMA,VAR_PRIMA_PRIMA_PRIMA,Var_PRIMA_PRIMA,StructVar_PRIMA,RETURNS,FUNC_VAR,primaryExpression,expression_prima,SENTENCIAS,RETURN,RETURN_PRIMA;
+nonterminal FUNC_CALL_PARAMETERS_PRIMA_PRIMA,Var_Type,Transac,Modifiers,Arithmetic_Op,Boolean_Op,Units,Reserved,Op,AA,EnumIds,Privacy,ArrayValue,Array,StructVar,Function_Parameters,FUNC_CALL_PARAMETERS,FUNC_CALL_PARAMETERS_PRIMA,ASIGNATION_PRIMA,Function_Parameters_PRIMA,ArrayValue_PRIMA,ArrayValue_PRIMA_PRIMA,Body_Identifier,Body_Identifier_PRIMA,START,CONTRACT,ENUM,VAR,STRUCT,FUNCTION,ASIGNATION,FUNC_CALL,expression,WHILE,FOR,DO,IF,ELSE,AR_OP,BOOL_OP,VAR_PRIMA,VAR_PRIMA_PRIMA_PRIMA,Var_PRIMA_PRIMA,StructVar_PRIMA,RETURNS,FUNC_VAR,primaryExpression,expression_prima,SENTENCIAS,RETURN,RETURN_PRIMA;
 
 
 start with START;
@@ -34,19 +34,14 @@ start with START;
 
 START ::= Pragma Solidity Version Semicolon CONTRACT ;
 
-CONTRACT ::= Contract Identifier O_Braces Enums Variables Structs Functions C_Braces ;
+CONTRACT ::= Contract Identifier O_Braces AA C_Braces ;
 
-Enums ::= Enums ENUM |  ;
-
-Variables ::= Variables VAR |  ;
-
-Structs ::= Structs STRUCT |  ;
-
-Functions ::= Functions FUNCTION |  ;
+AA ::= ENUM AA | VAR AA | STRUCT AA | FUNCTION AA |  ;
 
 
 //Funciones
 //LAS DECLARACIONES DE VARIABLES SOLO PUEDEN IR AL PRINCIPIO DE LA FUNCION
+//INCOMPLETO puede que tenga que ir arriba
 FUNCTION ::= Function Identifier O_Parentheses Function_Parameters C_Parentheses Modifiers RETURNS O_Braces SENTENCIAS C_Braces ;
 
 Function_Parameters ::= Var_Type Identifier Function_Parameters_PRIMA |  ;
@@ -64,7 +59,8 @@ RETURN_PRIMA ::= Identifier | Body_Identifier | expression ;
 
 //Sentencias
 
-SENTENCIAS ::= SENTENCIAS VAR | SENTENCIAS ASIGNATION | SENTENCIAS WHILE | SENTENCIAS FOR | SENTENCIAS DO | SENTENCIAS IF | SENTENCIAS FUNC_CALL | SENTENCIAS Return Identifier Semicolon | SENTENCIAS Break Semicolon | SENTENCIAS Continue Semicolon |  ;
+SENTENCIAS ::= VAR SENTENCIAS | ASIGNATION SENTENCIAS | WHILE SENTENCIAS | FOR SENTENCIAS | DO SENTENCIAS | IF SENTENCIAS | FUNC_CALL SENTENCIAS | Return Identifier Semicolon SENTENCIAS | Break Semicolon SENTENCIAS | Continue Semicolon SENTENCIAS |  ;
+
 
 //Expresiones
 //puede estar en funcion
@@ -81,11 +77,11 @@ Body_Identifier ::= Identifier Period Identifier Body_Identifier_PRIMA | This Pe
 Body_Identifier_PRIMA ::= O_Parentheses C_Parentheses |  ;
 
 
-//Enums // pueden estar vacios?
+//Enums
 
 ENUM ::= Enum Identifier O_Braces EnumIds C_Braces ;
 
-EnumIds ::=  EnumIds Comma Identifier | Identifier ;
+EnumIds ::= Identifier Comma EnumIds | Identifier ;
 
 
 //Declaración de variables
@@ -96,24 +92,26 @@ VAR_PRIMA ::= Equal VAR_PRIMA_PRIMA_PRIMA |  ;
 
 VAR_PRIMA_PRIMA_PRIMA ::= expression | Array ;
 
-Var_PRIMA_PRIMA ::= Privacy Identifier VAR_PRIMA | O_Brackets C_Brackets Identifier VAR_PRIMA ;
+Var_PRIMA_PRIMA ::= Privacy Identifier VAR_PRIMA | O_Brackets C_Brackets Identifier VAR_PRIMA | Identifier ;
 
 Array ::= O_Brackets ArrayValue ArrayValue_PRIMA C_Brackets ;
 
-ArrayValue ::= expression | Array |  ;
+ArrayValue ::= Number | String | Boolean_Value | O_Brackets ArrayValue |  ;
 
 ArrayValue_PRIMA ::= Comma ArrayValue_PRIMA_PRIMA |  ;
 
-ArrayValue_PRIMA_PRIMA ::= expression | Array ;
+ArrayValue_PRIMA_PRIMA ::= Number ArrayValue_PRIMA | String ArrayValue_PRIMA | Boolean_Value ArrayValue_PRIMA | O_Brackets ArrayValue ArrayValue_PRIMA ;
 
-Privacy ::= Public | Private |  ;
+Privacy ::= Public | Private ;
 
 
 //Structs
 
 STRUCT ::= Struct Identifier O_Braces StructVar C_Braces ;
 
-StructVar ::= StructVar VAR | VAR ;
+StructVar ::= VAR StructVar_PRIMA ;
+
+StructVar_PRIMA ::= StructVar |  ;
 
 
 //Asignacion de variables
