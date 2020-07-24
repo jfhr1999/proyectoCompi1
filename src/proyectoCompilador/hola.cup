@@ -152,14 +152,14 @@ ELSE ::= Else O_Braces SENTENCIAS C_Braces |  ;
 
 
 
+presedence left Or;
+presedence left And;
+presedence left Equal;
+presedence left Equals;
+presedence left Same_Different_Op;
+presedence left Greater_Lesser_Op;
+presedence left Least_Important_Op;
+presedence left Most_Important_Op;
+presedence left QuestionMark;
 
-
-
-
-
-
-
-
-
-
-
+expression ::= expression Or expression | expression And expression | expression Equal expression | expression Equals expression | expression Same_Different_Op expression | expression Greater_Lesser_Op expression | expression Least_Important_Op expression | expression Most_Important_Op expression | expression QuestionMark expression Colon expression | ExclamationMark expression | O_Parentheses expression C_Parentheses | primaryExpression ;

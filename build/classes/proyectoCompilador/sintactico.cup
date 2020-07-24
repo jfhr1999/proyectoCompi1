@@ -26,6 +26,15 @@ terminal Identifier,String,Hexadecimal,Version,Boolean_Value,ERROR,Modifier,Numb
 
 nonterminal Enums,Variables,Structs,Functions,FUNC_CALL_PARAMETERS_PRIMA_PRIMA,Var_Type,Transac,Modifiers,Arithmetic_Op,Boolean_Op,Units,Reserved,Op,AA,EnumIds,Privacy,ArrayValue,Array,StructVar,Function_Parameters,FUNC_CALL_PARAMETERS,FUNC_CALL_PARAMETERS_PRIMA,ASIGNATION_PRIMA,Function_Parameters_PRIMA,ArrayValue_PRIMA,ArrayValue_PRIMA_PRIMA,Body_Identifier,Body_Identifier_PRIMA,START,CONTRACT,ENUM,VAR,STRUCT,FUNCTION,ASIGNATION,FUNC_CALL,expression,WHILE,FOR,DO,IF,ELSE,AR_OP,BOOL_OP,VAR_PRIMA,VAR_PRIMA_PRIMA_PRIMA,Var_PRIMA_PRIMA,StructVar_PRIMA,RETURNS,FUNC_VAR,primaryExpression,expression_prima,SENTENCIAS,RETURN,RETURN_PRIMA;
 
+precedence left Or;
+precedence left And;
+precedence left Equal;
+precedence left Equals;
+precedence left Same_Different_Op;
+precedence left Greater_Lesser_Op;
+precedence left Least_Important_Op;
+precedence left Most_Important_Op;
+precedence left QuestionMark;
 
 start with START;
 
@@ -57,7 +66,7 @@ Modifiers ::= Public Modifiers | Private Modifiers | Modifier Modifiers |  ;
 
 RETURNS ::= Returns O_Parentheses Var_Type Identifier C_Parentheses |  ;
 
-RETURN ::= Return RETURN_PRIMA ;
+RETURN ::= Return RETURN_PRIMA Semicolon ;
 
 RETURN_PRIMA ::= Identifier | Body_Identifier | expression ;
 
@@ -69,9 +78,9 @@ SENTENCIAS ::= SENTENCIAS VAR | SENTENCIAS ASIGNATION | SENTENCIAS WHILE | SENTE
 //Expresiones
 //puede estar en funcion
 
-expression ::= O_Parentheses expression C_Parentheses | ExclamationMark expression | expression Most_Important_Op expression | expression Least_Important_Op expression | expression Greater_Lesser_Op expression | expression Same_Different_Op expression | expression And expression | expression Or expression | expression QuestionMark expression Colon expression | expression Equals expression | expression Equal expression | primaryExpression ;
+expression ::= expression Or expression | expression And expression | expression Equal expression | expression Equals expression | expression Same_Different_Op expression | expression Greater_Lesser_Op expression | expression Least_Important_Op expression | expression Most_Important_Op expression | expression QuestionMark expression Colon expression | ExclamationMark expression | O_Parentheses expression C_Parentheses | primaryExpression ;
 
-primaryExpression ::= Number | Hexadecimal | String | Boolean_Value | Identifier O_Parentheses FUNC_CALL_PARAMETERS C_Parentheses | Identifier | Body_Identifier ;
+primaryExpression ::= Number | Hexadecimal | String | Boolean_Value | FUNC_CALL | Identifier | Body_Identifier ;
 
 
 //Identificadores
