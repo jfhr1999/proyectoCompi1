@@ -24,7 +24,7 @@ action code
 
 terminal FUNC_BODY,Reserved,Transac,Units,Var_Type,Operator,Identifier,String,Hexadecimal,Version,Boolean_Value,ERROR,Modifier,Number,ExclamationMark,And,Or,Most_Important_Op,Least_Important_Op,Greater_Lesser_Op,Same_Different_Op,Equals,Pragma,Solidity,Caret,Contract,Enum,Public,Private,Struct,Function,Returns,Return,This,While,Do,For,If,Else,Break,Continue,O_Braces,C_Braces,O_Brackets,C_Brackets,O_Parentheses,C_Parentheses,Equal,Comma,Semicolon,Period,QuestionMark,Colon;
 
-nonterminal Enums,Variables,Structs,Functions,FUNC_CALL_PARAMETERS_PRIMA_PRIMA,Modifiers,EnumIds,Privacy,ArrayValue,Array,StructVar,Function_Parameters,FUNC_CALL_PARAMETERS,FUNC_CALL_PARAMETERS_PRIMA,ASIGNATION_PRIMA,Function_Parameters_PRIMA,ArrayValue_PRIMA,ArrayValue_PRIMA_PRIMA,Body_Identifier,Body_Identifier_PRIMA,START,CONTRACT,ENUM,VAR,STRUCT,FUNCTION,ASIGNATION,FUNC_CALL,expression,WHILE,FOR,DO,IF,ELSE,VAR_PRIMA,VAR_PRIMA_PRIMA_PRIMA,Var_PRIMA_PRIMA,RETURNS,primaryExpression,SENTENCIAS;
+nonterminal OTHER_IDENT,Enums,Variables,Structs,Functions,Modifiers,EnumIds,Privacy,ArrayValue,Array,StructVar,Function_Parameters,FUNC_CALL_PARAMETERS,FUNC_CALL_PARAMETERS_PRIMA,ASIGNATION_PRIMA,Function_Parameters_PRIMA,ArrayValue_PRIMA,ArrayValue_PRIMA_PRIMA,Body_Identifier,Body_Identifier_PRIMA,START,CONTRACT,ENUM,VAR,STRUCT,FUNCTION,ASIGNATION,FUNC_CALL,expression,WHILE,FOR,DO,IF,ELSE,VAR_PRIMA,VAR_PRIMA_PRIMA_PRIMA,Var_PRIMA_PRIMA,RETURNS,primaryExpression,SENTENCIAS;
 
 precedence left Or;
 precedence left And;
@@ -66,12 +66,10 @@ Modifiers ::= Public Modifiers | Private Modifiers | Modifier Modifiers |  ;
 
 RETURNS ::= Returns O_Parentheses Var_Type Identifier C_Parentheses |  ;
 
-//FUNC_BODY ::= FUNC_BODY ASIGNATION | FUNC_BODY WHILE | FUNC_BODY FOR | FUNC_BODY DO | FUNC_BODY IF | FUNC_BODY FUNC_CALL |  ;
-
 
 //Sentencias
 
-SENTENCIAS ::= SENTENCIAS ASIGNATION | SENTENCIAS WHILE | SENTENCIAS FOR | SENTENCIAS DO | SENTENCIAS IF | SENTENCIAS FUNC_CALL | SENTENCIAS Return expression Semicolon | SENTENCIAS Break Semicolon | SENTENCIAS Continue Semicolon |  ;
+SENTENCIAS ::= SENTENCIAS ASIGNATION | SENTENCIAS WHILE | SENTENCIAS FOR | SENTENCIAS DO | SENTENCIAS IF | SENTENCIAS FUNC_CALL Semicolon | SENTENCIAS Return expression Semicolon | SENTENCIAS Break Semicolon | SENTENCIAS Continue Semicolon |  ;
 
 
 
@@ -106,7 +104,9 @@ VAR_PRIMA ::= Equal VAR_PRIMA_PRIMA_PRIMA |  ;
 
 VAR_PRIMA_PRIMA_PRIMA ::= expression | Array ;
 
-Var_PRIMA_PRIMA ::= Privacy Identifier VAR_PRIMA | O_Brackets C_Brackets Identifier VAR_PRIMA ;
+Var_PRIMA_PRIMA ::= Privacy Identifier OTHER_IDENT VAR_PRIMA | O_Brackets C_Brackets Identifier OTHER_IDENT VAR_PRIMA ;
+
+OTHER_IDENT ::= Comma Identifier OTHER_IDENT |  ;
 
 Array ::= O_Brackets ArrayValue ArrayValue_PRIMA C_Brackets ;
 
@@ -135,14 +135,11 @@ ASIGNATION_PRIMA ::= expression | Array ;
 
 //LLamadas a función
 //puede estar en funcion
-FUNC_CALL ::= Identifier O_Parentheses FUNC_CALL_PARAMETERS C_Parentheses Semicolon ;
+FUNC_CALL ::= Identifier O_Parentheses FUNC_CALL_PARAMETERS C_Parentheses ;
 
 FUNC_CALL_PARAMETERS ::= expression FUNC_CALL_PARAMETERS_PRIMA |  ;
 
-FUNC_CALL_PARAMETERS_PRIMA ::= Comma FUNC_CALL_PARAMETERS_PRIMA_PRIMA |  ;
-
-FUNC_CALL_PARAMETERS_PRIMA_PRIMA ::= expression FUNC_CALL_PARAMETERS_PRIMA ;
-
+FUNC_CALL_PARAMETERS_PRIMA ::= Comma expression FUNC_CALL_PARAMETERS_PRIMA |  ;
 
 
 

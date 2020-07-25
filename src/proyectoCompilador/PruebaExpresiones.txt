@@ -1,34 +1,42 @@
-
 pragma solidity ^0.4.0;
 
 
 contract Contrato{
 
+	enum enum1{ id1, id2, id3}
+	enum enum2{ id1, id2, id3} // error de coma
+
+
+
+	int z, t, y, y;
+	//uint y  // error     
+	int z, t, y, y;
+	string private a;
+	//bytes public ; //error
+
+	int[] b;
+	//int[ b;//error
+
+	int a = 2;
+	//int a =; // error
+
+
+	struct IdStruct {
+		int z, t, y, y;
+	}
+
+	//struct { //error
+		//int z, t, y, y;
+	//}
+
 	function i(int x, int y) 
 	{
-		/////Todas las siguientes expresiones son aceptadas,
+		int z, t, y, y;
+		//uint y  // error declaracion dentro de funcion     
+		int z, t, y, y;
 
-		//x();
-
-		//a = a * c;
-
-		//x=2;
-
-		//funcion1(x=3);      //se espera que acepte llamado a funciones
-
-		//funcion1(3+x, 3=z)  ;  //tambien se pueden incluir cosas como estas como parametro y se aceptan
-
-		//a = 345 +8 * a + (5-3); //se aceptan combinaciones de expresiones
-
-		//a = a + 1 //error por el 
-	
-		//a = a * c + 55 - funcion(8);
-		//a= id.this();             -> bad shit
-		//a = a. ;   //error
-		a= this.b;
-
+		a = 0;
 	}
 
 } //cierra contrato
-
 

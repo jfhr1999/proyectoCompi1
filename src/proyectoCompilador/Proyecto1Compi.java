@@ -18,9 +18,10 @@ import jflex.exceptions.SilentExit;
 public class Proyecto1Compi {
     public static void main(String[] args) throws SilentExit, Exception {
         //generarJavalexer();                               //-----> genera el archivo Scanner.java
+        //System.out.println("hola");
         //generarJavaparser();                              //-----> genera los archivos parser.java y sym.java
         try {
-            String ST = new String(Files.readAllBytes(Paths.get("src/proyectoCompilador/PruebaVariables.txt")));
+            String ST = new String(Files.readAllBytes(Paths.get("src/proyectoCompilador/PruebaExpresiones.txt")));
             System.out.print(ST);
             System.out.print("\n");
             System.out.print("\n");
