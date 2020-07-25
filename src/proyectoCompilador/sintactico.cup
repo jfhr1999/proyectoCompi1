@@ -1,4 +1,4 @@
-package proyecto1Compi;
+package proyectoCompilador;
 
 import java_cup.runtime.Symbol;
 // javacupsymbol empty
@@ -22,9 +22,9 @@ action code
 :}
 
 
-terminal Identifier,String,Hexadecimal,Version,Boolean_Value,ERROR,Modifier,Number,ExclamationMark,And,Or,Most_Important_Op,Least_Important_Op,Greater_Lesser_Op,Same_Different_Op,Equals,Pragma,Solidity,Caret,Contract,Enum,Public,Private,Struct,Function,Returns,Return,This,While,Do,For,If,Else,Break,Continue,O_Braces,C_Braces,O_Brackets,C_Brackets,O_Parentheses,C_Parentheses,Equal,Comma,Semicolon,Period,QuestionMark,Colon;
+terminal FUNC_BODY,Reserved,Transac,Units,Var_Type,Operator,Identifier,String,Hexadecimal,Version,Boolean_Value,ERROR,Modifier,Number,ExclamationMark,And,Or,Most_Important_Op,Least_Important_Op,Greater_Lesser_Op,Same_Different_Op,Equals,Pragma,Solidity,Caret,Contract,Enum,Public,Private,Struct,Function,Returns,Return,This,While,Do,For,If,Else,Break,Continue,O_Braces,C_Braces,O_Brackets,C_Brackets,O_Parentheses,C_Parentheses,Equal,Comma,Semicolon,Period,QuestionMark,Colon;
 
-nonterminal Enums,Variables,Structs,Functions,FUNC_CALL_PARAMETERS_PRIMA_PRIMA,Var_Type,Transac,Modifiers,Arithmetic_Op,Boolean_Op,Units,Reserved,Op,AA,EnumIds,Privacy,ArrayValue,Array,StructVar,Function_Parameters,FUNC_CALL_PARAMETERS,FUNC_CALL_PARAMETERS_PRIMA,ASIGNATION_PRIMA,Function_Parameters_PRIMA,ArrayValue_PRIMA,ArrayValue_PRIMA_PRIMA,Body_Identifier,Body_Identifier_PRIMA,START,CONTRACT,ENUM,VAR,STRUCT,FUNCTION,ASIGNATION,FUNC_CALL,expression,WHILE,FOR,DO,IF,ELSE,AR_OP,BOOL_OP,VAR_PRIMA,VAR_PRIMA_PRIMA_PRIMA,Var_PRIMA_PRIMA,StructVar_PRIMA,RETURNS,FUNC_VAR,primaryExpression,expression_prima,SENTENCIAS,RETURN,RETURN_PRIMA;
+nonterminal Enums,Variables,Structs,Functions,FUNC_CALL_PARAMETERS_PRIMA_PRIMA,Modifiers,EnumIds,Privacy,ArrayValue,Array,StructVar,Function_Parameters,FUNC_CALL_PARAMETERS,FUNC_CALL_PARAMETERS_PRIMA,ASIGNATION_PRIMA,Function_Parameters_PRIMA,ArrayValue_PRIMA,ArrayValue_PRIMA_PRIMA,Body_Identifier,Body_Identifier_PRIMA,START,CONTRACT,ENUM,VAR,STRUCT,FUNCTION,ASIGNATION,FUNC_CALL,expression,WHILE,FOR,DO,IF,ELSE,VAR_PRIMA,VAR_PRIMA_PRIMA_PRIMA,Var_PRIMA_PRIMA,RETURNS,primaryExpression,SENTENCIAS;
 
 precedence left Or;
 precedence left And;
@@ -56,7 +56,7 @@ Functions ::= Functions FUNCTION |  ;
 
 //Funciones
 //LAS DECLARACIONES DE VARIABLES SOLO PUEDEN IR AL PRINCIPIO DE LA FUNCION
-FUNCTION ::= Function Identifier O_Parentheses Function_Parameters C_Parentheses Modifiers RETURNS O_Braces SENTENCIAS C_Braces ;
+FUNCTION ::= Function Identifier O_Parentheses Function_Parameters C_Parentheses Modifiers RETURNS O_Braces Variables SENTENCIAS C_Braces ;
 
 Function_Parameters ::= Var_Type Identifier Function_Parameters_PRIMA |  ;
 
@@ -66,14 +66,15 @@ Modifiers ::= Public Modifiers | Private Modifiers | Modifier Modifiers |  ;
 
 RETURNS ::= Returns O_Parentheses Var_Type Identifier C_Parentheses |  ;
 
-RETURN ::= Return RETURN_PRIMA Semicolon ;
-
-RETURN_PRIMA ::= Identifier | Body_Identifier | expression ;
+//FUNC_BODY ::= FUNC_BODY ASIGNATION | FUNC_BODY WHILE | FUNC_BODY FOR | FUNC_BODY DO | FUNC_BODY IF | FUNC_BODY FUNC_CALL |  ;
 
 
 //Sentencias
 
-SENTENCIAS ::= SENTENCIAS VAR | SENTENCIAS ASIGNATION | SENTENCIAS WHILE | SENTENCIAS FOR | SENTENCIAS DO | SENTENCIAS IF | SENTENCIAS FUNC_CALL | SENTENCIAS Return Identifier Semicolon | SENTENCIAS Break Semicolon | SENTENCIAS Continue Semicolon |  ;
+SENTENCIAS ::= SENTENCIAS ASIGNATION | SENTENCIAS WHILE | SENTENCIAS FOR | SENTENCIAS DO | SENTENCIAS IF | SENTENCIAS FUNC_CALL | SENTENCIAS Return expression Semicolon | SENTENCIAS Break Semicolon | SENTENCIAS Continue Semicolon |  ;
+
+
+
 
 //Expresiones
 //puede estar en funcion
@@ -136,11 +137,13 @@ ASIGNATION_PRIMA ::= expression | Array ;
 //puede estar en funcion
 FUNC_CALL ::= Identifier O_Parentheses FUNC_CALL_PARAMETERS C_Parentheses Semicolon ;
 
-FUNC_CALL_PARAMETERS ::= Identifier FUNC_CALL_PARAMETERS_PRIMA | expression FUNC_CALL_PARAMETERS_PRIMA |  ;
+FUNC_CALL_PARAMETERS ::= expression FUNC_CALL_PARAMETERS_PRIMA |  ;
 
 FUNC_CALL_PARAMETERS_PRIMA ::= Comma FUNC_CALL_PARAMETERS_PRIMA_PRIMA |  ;
 
-FUNC_CALL_PARAMETERS_PRIMA_PRIMA ::= Identifier FUNC_CALL_PARAMETERS_PRIMA | expression FUNC_CALL_PARAMETERS_PRIMA ;
+FUNC_CALL_PARAMETERS_PRIMA_PRIMA ::= expression FUNC_CALL_PARAMETERS_PRIMA ;
+
+
 
 
 //Estructuras de control
