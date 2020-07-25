@@ -931,7 +931,7 @@ class ScannerCup implements java_cup.runtime.Scanner {
       else {
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
           case 1:
-            { return new Symbol(sym.ERROR, yyline, yycolumn, yytext());
+            { System.out.println("Error Lexico en linea "+ yyline + " Caracter: " + yytext()); return new Symbol(sym.ERROR, yyline, yycolumn, yytext());
             }
             // fall through
           case 54: break;

@@ -7,8 +7,8 @@ int a;
 
 	function fi(int x, int y) returns (int a ) { 
 	
-		if (true) {  // error no tiene la expresion
-			a= a+b;
+		if () {  // error no tiene la expresion
+			//a= a+b;
 		} 
 		else {
 			a= a+b;
@@ -28,10 +28,9 @@ int a;
 		else {
 			a= a+b;
 		} 
-                else{  // doble else
+		else{  // doble else
 			a= a+b;
 		} 
-		
         
 		for (x=0; x<4;) {
 			a= a+b;
@@ -55,7 +54,6 @@ int a;
 		x=(x<2)?  :b; //error
 		
 		x=(x<2)? a:b;
-        }
 
 
 } //cierra contrato

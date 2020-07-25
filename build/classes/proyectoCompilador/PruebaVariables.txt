@@ -32,7 +32,7 @@ contract Contrato{
 	function i(int x, int y) 
 	{
 		int z, t, y, y;
-		uint y  // error declaracion dentro de funcion     
+		uint y  // error de ;     
 		int z, t, y, y;
 
 		a = 0;

@@ -13,7 +13,7 @@ public class sym {
   public static final int Comma = 50;
   public static final int Or = 18;
   public static final int FUNC_BODY = 2;
-  public static final int Hexadecimal = 10;
+  public static final int Hexadecimal = 11;
   public static final int If = 39;
   public static final int Caret = 26;
   public static final int Equal = 49;
@@ -32,7 +32,7 @@ public class sym {
   public static final int Return = 34;
   public static final int Pragma = 24;
   public static final int While = 36;
-  public static final int Boolean_Value = 12;
+  public static final int Boolean_Value = 13;
   public static final int O_Brackets = 45;
   public static final int O_Braces = 43;
   public static final int For = 38;
@@ -49,16 +49,16 @@ public class sym {
   public static final int Private = 30;
   public static final int Do = 37;
   public static final int Identifier = 8;
-  public static final int ERROR = 13;
+  public static final int ERROR = 9;
   public static final int Transac = 4;
   public static final int Continue = 42;
   public static final int Units = 5;
   public static final int Var_Type = 6;
   public static final int Public = 29;
   public static final int Modifier = 14;
-  public static final int String = 9;
+  public static final int String = 10;
   public static final int O_Parentheses = 47;
-  public static final int Version = 11;
+  public static final int Version = 12;
   public static final int Struct = 31;
   public static final int C_Brackets = 46;
   public static final int This = 35;
@@ -73,11 +73,11 @@ public class sym {
   "Var_Type",
   "Operator",
   "Identifier",
+  "ERROR",
   "String",
   "Hexadecimal",
   "Version",
   "Boolean_Value",
-  "ERROR",
   "Modifier",
   "Number",
   "ExclamationMark",

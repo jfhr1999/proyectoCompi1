@@ -104,4 +104,4 @@ Boolean_Value = (True|False)
 {Op} {return new Symbol(sym.Operator, yyline, yycolumn, yytext());}
 {Ident} {return new Symbol(sym.Identifier, yyline, yycolumn, yytext());}
 [\r\n" "\t] {}
-. {return new Symbol(sym.ERROR, yyline, yycolumn, yytext());}
+. {System.out.println("Error Lexico en linea "+ yyline + " Caracter: " + yytext()); return new Symbol(sym.ERROR, yyline, yycolumn, yytext());}

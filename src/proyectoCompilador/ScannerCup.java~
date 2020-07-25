@@ -931,7 +931,7 @@ class ScannerCup implements java_cup.runtime.Scanner {
       else {
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
           case 1:
-            { return new Symbol(sym.ERROR, yyline, yycolumn, yytext());
+            { System.out.println("Error Lexico en linea "+ yyline + " Caracter: " + yytext()); return new Symbol(sym.ERROR, yyline, yycolumn, yytext());
             }
             // fall through
           case 54: break;
@@ -982,12 +982,8 @@ class ScannerCup implements java_cup.runtime.Scanner {
           case 63: break;
           case 11:
             { String str = yytext();
-             //borrar luego
-            while(str.substring(0, 1).equals("0")){
-                System.out.println(str.substring(0));
+            while(str.substring(0, 1).equals("0") && !str.equals("0")){
                 str = str.substring(1);
-                
-                System.out.println(str.substring(0,1).equals("0"));
             }
             return new Symbol(sym.Number, yyline, yycolumn, str);
             }

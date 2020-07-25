@@ -11,8 +11,9 @@ parser code {:
     }
 
     public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{ 
-        System.out.println("Error NR de sintaxis: "+ s.value +" Linea "+(s.left+1)+" columna "+(s.right+1) );
+        System.out.println("Error No Recuperable de sintaxis: "+ s.value +" Linea "+(s.left+1)+" columna "+(s.right+1) );
     }
+
 
 :}
 
@@ -22,9 +23,13 @@ action code
 :}
 
 
-terminal FUNC_BODY,Reserved,Transac,Units,Var_Type,Operator,Identifier,String,Hexadecimal,Version,Boolean_Value,ERROR,Modifier,Number,ExclamationMark,And,Or,Most_Important_Op,Least_Important_Op,Greater_Lesser_Op,Same_Different_Op,Equals,Pragma,Solidity,Caret,Contract,Enum,Public,Private,Struct,Function,Returns,Return,This,While,Do,For,If,Else,Break,Continue,O_Braces,C_Braces,O_Brackets,C_Brackets,O_Parentheses,C_Parentheses,Equal,Comma,Semicolon,Period,QuestionMark,Colon;
+terminal FUNC_BODY,Reserved,Transac,Units,Var_Type,Operator,Identifier,ERROR,String,Hexadecimal,Version,Boolean_Value,Modifier,Number,ExclamationMark,And,Or,Most_Important_Op,Least_Important_Op,Greater_Lesser_Op,Same_Different_Op,Equals,Pragma,Solidity,Caret,Contract,Enum,Public,Private,Struct,Function,Returns,Return,This,While,Do,For,If,Else,Break,Continue,O_Braces,C_Braces,O_Brackets,C_Brackets,O_Parentheses,C_Parentheses,Equal,Comma,Semicolon,Period,QuestionMark,Colon;
+
+//terminal String ;
 
 nonterminal OTHER_IDENT,Enums,Variables,Structs,Functions,Modifiers,EnumIds,Privacy,ArrayValue,Array,StructVar,Function_Parameters,FUNC_CALL_PARAMETERS,FUNC_CALL_PARAMETERS_PRIMA,ASIGNATION_PRIMA,Function_Parameters_PRIMA,ArrayValue_PRIMA,ArrayValue_PRIMA_PRIMA,Body_Identifier,Body_Identifier_PRIMA,START,CONTRACT,ENUM,VAR,STRUCT,FUNCTION,ASIGNATION,FUNC_CALL,expression,WHILE,FOR,DO,IF,ELSE,VAR_PRIMA,VAR_PRIMA_PRIMA_PRIMA,Var_PRIMA_PRIMA,RETURNS,primaryExpression,SENTENCIAS;
+
+//Error
 
 precedence left Or;
 precedence left And;
@@ -157,7 +162,7 @@ ELSE ::= Else O_Braces SENTENCIAS C_Braces |  ;
 
 
 //Errors
-
+//Error ::= ERROR:e{: System.out.println("Error Lexico: " + e):}
 
 
 
