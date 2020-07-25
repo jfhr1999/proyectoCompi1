@@ -8,22 +8,23 @@ contract Contrato{
 	{
 		/////Todas las siguientes expresiones son aceptadas,
 
-		//x();
+		x();
 
-		//a = a * c;
+		a = a * c;
 
-		//x=2;
+		x=2;
 
-		//funcion1(x=3);      //se espera que acepte llamado a funciones
+		funcion1(x=3);      //se espera que acepte llamado a funciones
 
-		//funcion1(3+x, 3=z)  ;  //tambien se pueden incluir cosas como estas como parametro y se aceptan
+		funcion1(3+x, 3=z)  ;  //tambien se pueden incluir cosas como estas como parametro y se aceptan
 
-		//a = 345 +8 * a + (5-3); //se aceptan combinaciones de expresiones
+		a = 345 +8 * a + (5-3); //se aceptan combinaciones de expresiones
 
-		//a = a + 1 //error por el 
+		a = a + 1  //error por el ;
+	
 		a = a * c + 55 - funcion(8);
-		//a= id.this();             -> bad shit
-		//a = a. ;   //error
+		a= id.this();
+		a = a. ;   //error
 		a= this.b;
 
 	}
