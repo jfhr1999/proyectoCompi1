@@ -982,8 +982,12 @@ class ScannerCup implements java_cup.runtime.Scanner {
           case 63: break;
           case 11:
             { String str = yytext();
+             //borrar luego
             while(str.substring(0, 1).equals("0")){
+                System.out.println(str.substring(0));
                 str = str.substring(1);
+                
+                System.out.println(str.substring(0,1).equals("0"));
             }
             return new Symbol(sym.Number, yyline, yycolumn, str);
             }

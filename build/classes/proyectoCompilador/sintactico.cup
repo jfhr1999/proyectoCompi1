@@ -150,7 +150,7 @@ FUNC_CALL_PARAMETERS_PRIMA_PRIMA ::= expression FUNC_CALL_PARAMETERS_PRIMA ;
 //puede estar en función
 WHILE ::= While O_Parentheses expression C_Parentheses O_Braces SENTENCIAS C_Braces ;
 
-FOR ::= For O_Parentheses ASIGNATION Semicolon expression Semicolon expression C_Parentheses O_Braces SENTENCIAS C_Braces ;
+FOR ::= For O_Parentheses ASIGNATION expression Semicolon expression C_Parentheses O_Braces SENTENCIAS C_Braces ;
 
 DO ::= Do O_Braces SENTENCIAS C_Braces While O_Braces expression C_Parentheses Semicolon ;
 

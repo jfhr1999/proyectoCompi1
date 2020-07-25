@@ -18,14 +18,17 @@ import jflex.exceptions.SilentExit;
 public class Proyecto1Compi {
     public static void main(String[] args) throws SilentExit, Exception {
         //generarJavalexer();                               //-----> genera el archivo Scanner.java
-        generarJavaparser();                              //-----> genera los archivos parser.java y sym.java
-        /*try {
-            String ST = new String(Files.readAllBytes(Paths.get("src/proyectoCompilador/p.txt")));
-            String p = "public int main(){\n int x \n}";
+        //generarJavaparser();                              //-----> genera los archivos parser.java y sym.java
+        try {
+            String ST = new String(Files.readAllBytes(Paths.get("src/proyectoCompilador/PruebaVariables.txt")));
             System.out.print(ST);
             System.out.print("\n");
+            System.out.print("\n");
+            System.out.print("--------------------------------Parseo---------------------------------");
+            System.out.print("\n");
+            System.out.print("\n");
             
-            Scanner lex = new Scanner(new BufferedReader (new StringReader(p)));
+            ScannerCup lex = new ScannerCup(new BufferedReader (new StringReader(ST)));
             
             parser par = new parser(lex);
             par.parse();
@@ -34,7 +37,8 @@ public class Proyecto1Compi {
             ex.printStackTrace();
         } catch (Exception ee){
             ee.printStackTrace();
-        }*/
+        }
+        
     }
     
     public static void generarJavalexer() throws SilentExit{

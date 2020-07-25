@@ -1,0 +1,61 @@
+pragma solidity ^0.4.0;
+
+
+contract Contrato{
+
+int a;
+
+	function fi(int x, int y) returns (int a ) { 
+	
+		if (true) {  // error no tiene la expresion
+			a= a+b;
+		} 
+		else {
+			a= a+b;
+		}  
+
+		if (a > 3) {
+			a= a+b;
+		} 
+		else {
+			a= a+b;
+		}  
+        
+
+		if (a > 3) {
+			a= a+b;
+		} 
+		else {
+			a= a+b;
+		} 
+                else{  // doble else
+			a= a+b;
+		} 
+		
+        
+		for (x=0; x<4;) {
+			a= a+b;
+		} //error pues falta una expresion
+        
+
+		for (x=1;x<2;x+1){ // no hay error
+			x= a+b; 
+			break;
+		}
+
+        	while () {  // error no tiene la expresion
+			a= a+b;
+		} 
+       
+		while ((!f)||(x<2)) {
+			x= a+b;
+		}  // aceptarlo correctamente
+
+		
+		x=(x<2)?  :b; //error
+		
+		x=(x<2)? a:b;
+        }
+
+
+} //cierra contrato

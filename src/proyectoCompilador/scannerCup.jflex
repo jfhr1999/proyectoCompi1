@@ -50,7 +50,7 @@ Boolean_Value = (True|False)
 {Comments} {}
 {Strings} {return new Symbol(sym.String, yyline, yycolumn, yytext());}
 {Numbers} { String str = yytext();
-            while(str.substring(0, 1).equals("0")){
+            while(str.substring(0, 1).equals("0") && !str.equals("0")){
                 str = str.substring(1);
             }
             return new Symbol(sym.Number, yyline, yycolumn, str);}

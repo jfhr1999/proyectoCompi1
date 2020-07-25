@@ -1,0 +1,35 @@
+pragma solidity ^0.4.0;
+
+
+contract Contrato{
+
+	function fi (x, y) // error porque no hay tipos
+	{
+
+		a = a * c;
+
+		x=2;
+	}
+
+	function fi(int, int) { //no se permite solo los tipos
+	
+		a = a * c;
+
+		x=2;
+	}
+
+	function fi(int x, int y) returns (int) { //el returns le falta la nombre de la variable
+	
+		a = a * c;
+
+		x=2;
+	}
+
+	function fi(int x, int y) public returns (int a ) { //todo bien
+	
+		a = a * c;
+
+		x=2;
+	}
+
+} //cierra contrato
