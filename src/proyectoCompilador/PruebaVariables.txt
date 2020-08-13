@@ -4,35 +4,35 @@ pragma solidity ^0.4.0;
 contract Contrato{
 
 	enum enum1{ id1, id2, id3}
-	enum enum2{ id1, id2 id3} // error de coma
+	//enum enum2{ id1, id2 id3} // error de coma
 
 
 
 	int z, t, y, y;
-	uint y  // error     
+	uint y;  // error     
 	int z, t, y, y;
 	string private a;
-	bytes public ; //error
+	//bytes public ; //error
 
 	int[] b;
-	int[ b;//error
+	//int[ b;//error
 
 	int a = 2;
-	int a =; // error
+	//int a =; // error
 
 
 	struct IdStruct {
 		int z, t, y, y;
 	}
 
-	struct { //error
+	struct algo{ //error
 		int z, t, y, y;
 	}
 
 	function i(int x, int y) 
 	{
 		int z, t, y, y;
-		uint y  // error de ;     
+		uint y;  // error declaracion dentro de funcion     
 		int z, t, y, y;
 
 		a = 0;

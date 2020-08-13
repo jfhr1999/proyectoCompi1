@@ -1,0 +1,62 @@
+pragma solidity ^0.4.0;
+
+
+contract Contrato{
+
+	enum enum1{ id1, id2, id3}
+
+	int z, t, y, y;
+	int z, t, y, y;
+	string private a;
+
+	int[] b;
+
+	int a = 2;
+
+
+	struct IdStruct {
+		int z, t, y, y;
+	}
+
+	
+
+	function i(int x, int y) 
+	{
+		int z, t, y, y;   
+		int z, t, y, y;
+
+		a = 0;
+	}
+
+	function fi(int x, int y) public returns (int a ) { //todo bien
+	
+		a = a * c;
+
+		x=2;
+
+
+		if (a > 3) { 
+			a= a+b;
+		} 
+		else {
+			a= a+b;
+		} 
+
+		for (x=1;x<2;x+1){ // no hay error
+			x= a+b; 
+			break;
+		}
+       
+		while ((!f)||(x<2)) {
+			x= a+b;
+		}  // aceptarlo correctamente
+
+		
+		x=(x<2)? a:b;
+
+
+	}
+
+
+} //cierra contrato
+

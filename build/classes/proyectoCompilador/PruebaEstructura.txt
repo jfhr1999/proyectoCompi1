@@ -1,6 +1,6 @@
 pragma solidity ^0.4.0;
 
-int x;    //se espera error de sintaxis por expresion fuera de funcion                         
+//int x;    //se espera error de sintaxis por expresion fuera de funcion                         
                        
 
 contract Contrato{
@@ -17,18 +17,19 @@ int a;
 			a= a+b;
 		}
 		
-		int ww;                 //se espera que de error por declaracion de variable local posterior  a cuerpo de la funcion  
+		//int ww;                 //se espera que de error por declaracion de variable local posterior bloque
 	}
 	
 	function fi(int x, int y) returns (int a ) {
 
 		a= a+b;
-	// error porque no hay cierre de funcion
+	}// error porque no hay cierre de funcion
 
 	function fi(int x, int y) returns (int a ) {
 
 		a= a+b;
 	}
+	int ww;                 //se espera que de error por declaracion de variable local posterior a funcion
 
         	
 } //cierra contrato

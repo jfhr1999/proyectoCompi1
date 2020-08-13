@@ -13,7 +13,7 @@ public class Proyecto1Compi {
     public static void main(String[] args) throws SilentExit, Exception {
         //generarJavalexer();                               //-----> genera el archivo ScannerCup.java
         //generarJavaparser();                              //-----> genera los archivos parser.java y sym.java
-        //ejecutarAnalisis("PruebaVariables");              //-----> ejecuta analisis
+        ejecutarAnalisis("PruebaEstructurasControl");              //-----> ejecuta analisis
     }
     
     public static void generarJavalexer() throws SilentExit{

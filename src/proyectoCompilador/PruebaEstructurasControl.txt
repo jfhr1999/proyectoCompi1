@@ -7,32 +7,39 @@ int a;
 
 	function fi(int x, int y) returns (int a ) { 
 	
-		if () {  // error no tiene la expresion
+		if (x) {  // error no tiene la expresion
+			a= a+b;
+		} 
+		else {
+			a= a+b;
+		}  
+
+		if (a > 3) {
+			a= a+b;
+		} 
+		else {
+			a= a+b;
+		}  
+        
+
+		if (a > 3) {
+			a= a+b;
+		} 
+		else {
+			a= a+b;
+		} 
+		//else{  // doble else
 			//a= a+b;
-		} 
-		else {
-			a= a+b;
-		}  
+		//} 
 
-		if (a > 3) {
+		if (a > 3) { /// sin parentesis
 			a= a+b;
 		} 
 		else {
-			a= a+b;
-		}  
-        
-
-		if (a > 3) {
-			a= a+b;
-		} 
-		else {
-			a= a+b;
-		} 
-		else{  // doble else
 			a= a+b;
 		} 
         
-		for (x=0; x<4;) {
+		for (x=0; x<4;x+1) {
 			a= a+b;
 		} //error pues falta una expresion
         
@@ -42,7 +49,12 @@ int a;
 			break;
 		}
 
-        	while () {  // error no tiene la expresion
+		for (x=1;x<2;x+1) { // error en cierre de parentesis
+			x= a+b; 
+			break;
+		}
+
+        	while (true) {  // error no tiene la expresion
 			a= a+b;
 		} 
        
@@ -50,10 +62,32 @@ int a;
 			x= a+b;
 		}  // aceptarlo correctamente
 
-		
-		x=(x<2)?  :b; //error
+		while (a > 3) { /// sin parentesis
+			a= a+b;
+		} 
+
+		do {  
+			a= a+b;
+		}while (true);  // error no tiene la expresion
+
+
+		do {  
+			a= a+b;
+		}while (A>2);  // error cierre parentesis
+
+
+		do {  
+			a= a+b;
+		} while (A>2); 
+
+		//do {  
+			//a= a+b;
+		// while (A>2)  // falta parentesis de cierre de bloque
+
+
+		//x=(x<2)?  :b; //error
 		
 		x=(x<2)? a:b;
 
-
+    }
 } //cierra contrato

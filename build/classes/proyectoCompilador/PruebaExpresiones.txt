@@ -14,18 +14,21 @@ contract Contrato{
 
 		x=2;
 
-		funcion1(x=3);      //se espera que acepte llamado a funciones
+		a= funcion1(x-3);      //se espera que acepte llamado a funciones
 
-		funcion1(3+x, 3=z)  ;  //tambien se pueden incluir cosas como estas como parametro y se aceptan
+		funcion1(3+x, 3+z)  ;  //tambien se pueden incluir cosas como estas como parametro y se aceptan
 
 		a = 345 +8 * a + (5-3); //se aceptan combinaciones de expresiones
 
-		//a = a + 1  //error por el ;
+		a = a + 1;  //error por el ;
 	
 		a = a * c + 55 - funcion(8);
-		//a= id.this();
-		a = a. ;   //error
+		//a= id.this(); // error el this no va aqui
+
+		//a = a. ;   //error
 		a= this.b;
+
+		//a = (a+k)-((a*6 - (a-b) +7) +8 ; // mal uso de los parentesis
 
 	}
 

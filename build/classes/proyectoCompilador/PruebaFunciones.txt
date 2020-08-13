@@ -3,7 +3,7 @@ pragma solidity ^0.4.0;
 
 contract Contrato{
 
-	function fi (x, y) // error porque no hay tipos
+	function fi (int x, int y) // error porque no hay tipos
 	{
 
 		a = a * c;
@@ -11,14 +11,14 @@ contract Contrato{
 		x=2;
 	}
 
-	function fi(int, int) { //no se permite solo los tipos
+	function fi(int x, int y) { //no se permite solo los tipos
 	
 		a = a * c;
 
 		x=2;
 	}
 
-	function fi(int x, int y) returns (int) { //el returns le falta la nombre de la variable
+	function fi(int x, int y) returns (int a) { //el returns le falta la nombre de la variable
 	
 		a = a * c;
 
