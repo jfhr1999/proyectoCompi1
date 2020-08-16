@@ -6,8 +6,7 @@ public class RS_ID extends RS_base{
     
     public RS_ID(String pNombre){
         this.nombre = pNombre;
-        this.tipoRS = "id";
-        
+        this.tipoRS = "id";     
     }
 
     public String getNombre() {

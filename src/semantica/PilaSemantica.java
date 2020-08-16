@@ -16,22 +16,9 @@ public class PilaSemantica {
         return tamanio;
     }
     //revisar, posibles problemas mas adelante
-    public void push(String valor, String tipoRS){
-        
+    public void push(RS_base pRSbase) {
         Nodo nodo = new Nodo();
-        switch(tipoRS)
-        {
-            case "id":
-                RS_ID rsid = new RS_ID(valor);
-                nodo.setValor(rsid);
-                break;  
-            case "tipo":
-                RS_Tipo rstipo = new RS_Tipo(valor);
-                nodo.setValor(rstipo);
-                break;
-            default:
-                //nada
-        }    
+        nodo.setValor(pRSbase);
         if (esVacia()) {
             inicio = nodo;
         }
@@ -42,15 +29,17 @@ public class PilaSemantica {
         tamanio++;
     } 
     
-    public RS_base pop(){
+    public RS_base pop() throws Exception{
         Nodo n = new Nodo();
         if (!esVacia()) {
-            
-            n = inicio.getSiguiente();
+            n = inicio;
             inicio = inicio.getSiguiente();
             tamanio--;
+            return n.getValor();
         }
-        return n.getValor();
+        else{
+            throw new Exception("La pila se encuentra vacia.");
+        }
     }
         
     public RS_base top() throws Exception{

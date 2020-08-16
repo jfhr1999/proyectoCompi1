@@ -5,16 +5,14 @@ public class Nodo {
     private RS_base valor;
     private Nodo siguiente;
     
-    public void Nodo(RS_Tipo rst){
-        this.valor = rst;
+    public Nodo(RS_base pRS){
+        this.valor = pRS;
         this.siguiente = null;
     }
     
-    public void Nodo(RS_ID id){
-        this.valor = id;
+    public Nodo(){
         this.siguiente = null;
     }
-    
     
     public RS_base getValor() {
         return valor;
