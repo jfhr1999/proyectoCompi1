@@ -16,7 +16,7 @@ public class PilaSemantica {
         return tamanio;
     }
     //revisar, posibles problemas mas adelante
-    public void push(RS_base pRSbase) {
+    public void push(RS_Base pRSbase) {
         Nodo nodo = new Nodo();
         nodo.setValor(pRSbase);
         if (esVacia()) {
@@ -29,7 +29,7 @@ public class PilaSemantica {
         tamanio++;
     } 
     
-    public RS_base pop() throws Exception{
+    public RS_Base pop() throws Exception{
         Nodo n = new Nodo();
         if (!esVacia()) {
             n = inicio;
@@ -42,7 +42,7 @@ public class PilaSemantica {
         }
     }
         
-    public RS_base top() throws Exception{
+    public RS_Base top() throws Exception{
        if(!esVacia()){
            return inicio.getValor();
        } else {
@@ -51,11 +51,26 @@ public class PilaSemantica {
     }
     
     //determina si existe el RS dentro de la pila y retorna boolean
-    public boolean buscar(RS_base referencia){
+    public boolean buscar(RS_Base referencia){
         Nodo aux = inicio;
         boolean existe = false;
         while(existe != true && aux != null){
             if (referencia.equals(aux.getValor())) { 
+                existe = true;
+                break;
+            }
+            else{
+                aux = aux.getSiguiente();
+            }
+        }
+        return existe;
+    }
+    
+    public boolean buscarWhile(RS_While referencia){
+        Nodo aux = inicio;
+        boolean existe = false;
+        while(existe != true && aux != null){
+            if (referencia.getTipoRS().equals(aux.getValor().getTipoRS())) { 
                 existe = true;
                 break;
             }

@@ -1,6 +1,6 @@
 package semantica;
 
-public class RS_DO extends RS_base {
+public class RS_DO extends RS_Base {
     String valor;
     String nombre;
     

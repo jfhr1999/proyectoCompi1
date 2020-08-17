@@ -1,7 +1,7 @@
 package semantica;
 
 
-public class RS_If extends RS_base{
+public class RS_If extends RS_Base{
     
     private String elseLabel;
     private String exitLabel;

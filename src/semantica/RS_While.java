@@ -1,6 +1,6 @@
 package semantica;
 
-public class RS_While extends RS_base{
+public class RS_While extends RS_Base{
     
     private String whileLabel;
     private String exitLabel;

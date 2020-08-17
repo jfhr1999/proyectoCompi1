@@ -2,10 +2,10 @@ package semantica;
 
 public class Nodo {
     
-    private RS_base valor;
+    private RS_Base valor;
     private Nodo siguiente;
     
-    public Nodo(RS_base pRS){
+    public Nodo(RS_Base pRS){
         this.valor = pRS;
         this.siguiente = null;
     }
@@ -14,11 +14,11 @@ public class Nodo {
         this.siguiente = null;
     }
     
-    public RS_base getValor() {
+    public RS_Base getValor() {
         return valor;
     }
 
-    public void setValor(RS_base valor) {
+    public void setValor(RS_Base valor) {
         this.valor = valor;
     }
 

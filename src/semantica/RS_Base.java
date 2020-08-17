@@ -1,10 +1,10 @@
 package semantica;
 
-public class RS_base {
+public class RS_Base {
     
     protected String tipoRS;
     
-    public RS_base(){
+    public RS_Base(){
     
     }
 

@@ -1,7 +1,7 @@
 package semantica;
 
 
-public class RS_Op extends RS_base{
+public class RS_Op extends RS_Base{
     
     private String op;
     

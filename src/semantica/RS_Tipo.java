@@ -1,6 +1,6 @@
 package semantica;
 
-public class RS_Tipo extends RS_base{
+public class RS_Tipo extends RS_Base{
     
     private String tipo;
     
