@@ -1,6 +1,6 @@
 package semantica;
 
-public abstract class RS_base {
+public class RS_base {
     
     protected String tipoRS;
     
@@ -15,7 +15,4 @@ public abstract class RS_base {
     public void setTipoRS(String tipoRS) {
         this.tipoRS = tipoRS;
     }
-    
-    
-    
 }

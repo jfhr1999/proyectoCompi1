@@ -1,6 +1,5 @@
 package proyectoCompilador;
 
-package proyectoCompilador;
 import java.util.ArrayList;
 
 class TablaSimbolos {
@@ -11,30 +10,26 @@ class TablaSimbolos {
     }
 
     public boolean agregarToken(Token pToken){ //Retorna true si logró insertar, y false si no lo pudo hacer
-        boolean res = false;
         boolean alreadyExists = buscarToken(pToken);
         if(!alreadyExists){
             simbolos.add(pToken);
-            res = true;
+            return true;
         }
-        return res;
+        return false; //variable ya declarada
     }
 
     public boolean buscarToken(Token pToken){ //Retorna true si encontró el token en la tabla, y false si no
-        boolean res = false;
         for(Token t : simbolos){
-            if(t.getTipo().equals(pToken.getTipo()) && t.getNombre().equals(pToken.getNombre()){ //Qué vamos a usar para comparar los tokens?
-                res = true;
-                break;
+            if(t.getNombre().equals(pToken.getNombre()) && t.getSubclase().equals(pToken.getSubclase())){
+                return true;
             }
         }
-        return res;
+        return false;
     }
 
-    @Override
     public String toString(){
         String res = "";
-        res += "-------TABLA SIMBOLOS-------/n"
+        res += "-------TABLA SIMBOLOS-------/n";
         for(Token t: simbolos){
             res += t.toString();
         }

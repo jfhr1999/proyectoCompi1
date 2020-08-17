@@ -1,14 +1,17 @@
 package proyectoCompilador;
 
-public abstract class Token{
+public class Token{
 
     protected String nombre = ""; //Identifier
     protected String tipo = "";
     protected String subclase = "";
     protected String ambito = "";
 
-    public Token(){
-
+    public Token(String nombre, String tipo, String subclase, String ambito){
+        this.nombre = nombre;
+        this.tipo = tipo;
+        this.subclase = subclase;
+        this.ambito = ambito;
     }
 
     public void setNombre(String pNombre){
@@ -45,11 +48,11 @@ public abstract class Token{
 
     public String toString(){
         String res = "";
-        res += "TOKEN/n"
+        res += "TOKEN/n";
         res += "Nombre: " + nombre + "/n";
         res += "Subclase: " + subclase + "/n";
         res += "Tipo: " + tipo + "/n";
         res += "Ambito: " + ambito + "/n";
+        return res;
     }
-
 }
