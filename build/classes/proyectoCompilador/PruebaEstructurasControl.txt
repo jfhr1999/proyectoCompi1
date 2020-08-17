@@ -4,6 +4,7 @@ pragma solidity ^0.4.0;
 contract Contrato{
 
 int a;
+//int a;
 
 	function fi(int x, int y) returns (int a ) { 
 	

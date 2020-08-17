@@ -1,6 +1,7 @@
 package proyectoCompilador;
 
 import java_cup.runtime.Symbol;
+import semantica.*;
 // javacupsymbol empty
 
 //PARSER 
@@ -19,16 +20,18 @@ parser code {:
 
 action code
 {://Codigo de usuario
-    String tmp="";
+    //String tmp="";
+    TablaSimbolos tablaSimbolos = new TablaSimbolos();
+    PilaSemantica pila = new PilaSemantica();
 :}
 
 
-terminal FUNC_BODY,Reserved,Transac,Units,Var_Type,Operator,Identifier,ERROR,String,Hexadecimal,Version,Boolean_Value,Modifier,Number,ExclamationMark,And,Or,Most_Important_Op,Least_Important_Op,Greater_Lesser_Op,Same_Different_Op,Equals,Pragma,Solidity,Caret,Contract,Enum,Public,Private,Struct,Function,Returns,Return,This,While,Do,For,If,Else,Break,Continue,O_Braces,C_Braces,O_Brackets,C_Brackets,O_Parentheses,C_Parentheses,Equal,Comma,Semicolon,Period,QuestionMark,Colon;
-
+terminal FUNC_BODY,Reserved,Transac,Units,Operator,ERROR,String,Hexadecimal,Version,Boolean_Value,Modifier,Number,ExclamationMark,And,Or,Most_Important_Op,Least_Important_Op,Greater_Lesser_Op,Same_Different_Op,Equals,Pragma,Solidity,Caret,Contract,Enum,Public,Private,Struct,Function,Returns,Return,This,While,Do,For,If,Else,Break,Continue,O_Braces,C_Braces,O_Brackets,C_Brackets,O_Parentheses,C_Parentheses,Equal,Comma,Semicolon,Period,QuestionMark,Colon;
+terminal String Identifier, Var_Type;
 //terminal String ;
 
-nonterminal OTHER_IDENT,Enums,Variables,Structs,Functions,Modifiers,EnumIds,Privacy,ArrayValue,Array,StructVar,Function_Parameters,FUNC_CALL_PARAMETERS,FUNC_CALL_PARAMETERS_PRIMA,ASIGNATION_PRIMA,Function_Parameters_PRIMA,ArrayValue_PRIMA,ArrayValue_PRIMA_PRIMA,Body_Identifier,Body_Identifier_PRIMA,START,CONTRACT,ENUM,VAR,STRUCT,FUNCTION,ASIGNATION,FUNC_CALL,expression,WHILE,FOR,DO,IF,ELSE,VAR_PRIMA,VAR_PRIMA_PRIMA_PRIMA,Var_PRIMA_PRIMA,RETURNS,primaryExpression,SENTENCIAS;
-
+nonterminal OTHER_IDENT,Enums,Variables,Structs,Functions,Modifiers,EnumIds,Privacy,ArrayValue,Array,StructVar,Function_Parameters,FUNC_CALL_PARAMETERS,FUNC_CALL_PARAMETERS_PRIMA,ASIGNATION_PRIMA,Function_Parameters_PRIMA,ArrayValue_PRIMA,ArrayValue_PRIMA_PRIMA,Body_Identifier,Body_Identifier_PRIMA,START,CONTRACT,ENUM,VAR,STRUCT,FUNCTION,ASIGNATION,FUNC_CALL,WHILE,FOR,DO,IF,ELSE,VAR_PRIMA,VAR_PRIMA_PRIMA_PRIMA,Var_PRIMA_PRIMA,RETURNS,primaryExpression,SENTENCIAS;
+nonterminal String expression;
 //Error
 
 precedence left Or;
@@ -48,7 +51,9 @@ start with START;
 
 START ::= Pragma Solidity Version Semicolon CONTRACT ;
 
-CONTRACT ::= Contract Identifier O_Braces Enums Variables Structs Functions C_Braces ;
+CONTRACT ::= Contract Identifier O_Braces Enums Variables Structs Functions C_Braces {:
+    System.out.println(tablaSimbolos.toString());
+:} ;
 
 Enums ::= Enums ENUM |  ;
 
@@ -61,11 +66,32 @@ Functions ::= Functions FUNCTION |  ;
 
 //Funciones
 //LAS DECLARACIONES DE VARIABLES SOLO PUEDEN IR AL PRINCIPIO DE LA FUNCION
-FUNCTION ::= Function Identifier O_Parentheses Function_Parameters C_Parentheses Modifiers RETURNS O_Braces Variables SENTENCIAS C_Braces ;
+FUNCTION ::= Function Identifier:ident {:RS_Funcion reg = new RS_Funcion(ident);
+                                        pila.push(reg);:} O_Parentheses Function_Parameters C_Parentheses Modifiers RETURNS O_Braces Variables SENTENCIAS C_Braces ;
 
-Function_Parameters ::= Var_Type Identifier Function_Parameters_PRIMA |  ;
+Function_Parameters ::= Var_Type:type Identifier:ident {:TokenVar t = new TokenVar();
+                                                        t.setNombre(ident);
+                                                        t.setTipo(type);
+                                                        t.setSubclase("variable (parametro)");
+                                                        t.setAlcance(pila.buscarAlcance());
+                                                        t.setValor("");
+                                                        if(tablaSimbolos.buscarTokenVariable(t)){
+                                                            System.out.println("El parametro " + t.getNombre() + " ya fue declarado");
+                                                        }else{
+                                                            tablaSimbolos.agregarToken(t);
+                                                        }:} Function_Parameters_PRIMA |  ;
 
-Function_Parameters_PRIMA ::= Comma Var_Type Identifier Function_Parameters_PRIMA |  ;
+Function_Parameters_PRIMA ::= Comma Var_Type:type Identifier:ident {:TokenVar t = new TokenVar();
+                                                                    t.setNombre(ident);
+                                                                    t.setTipo(type);
+                                                                    t.setSubclase("variable (parametro)");
+                                                                    t.setAlcance(pila.buscarAlcance());
+                                                                    t.setValor("");
+                                                                    if(tablaSimbolos.buscarTokenVariable(t)){
+                                                                        System.out.println("El parametro " + t.getNombre() + " ya fue declarado");
+                                                                    }else{
+                                                                        tablaSimbolos.agregarToken(t);
+                                                                    }:} Function_Parameters_PRIMA |  ;
 
 Modifiers ::= Public Modifiers | Private Modifiers | Modifier Modifiers |  ;
 
@@ -74,7 +100,11 @@ RETURNS ::= Returns O_Parentheses Var_Type Identifier C_Parentheses |  ;
 
 //Sentencias
 
-SENTENCIAS ::= SENTENCIAS ASIGNATION | SENTENCIAS WHILE | SENTENCIAS FOR | SENTENCIAS DO | SENTENCIAS IF | SENTENCIAS FUNC_CALL Semicolon | SENTENCIAS Return expression Semicolon | SENTENCIAS Break Semicolon | SENTENCIAS Continue Semicolon |  ;
+SENTENCIAS ::= SENTENCIAS ASIGNATION | SENTENCIAS WHILE | SENTENCIAS FOR | SENTENCIAS DO | SENTENCIAS IF | SENTENCIAS FUNC_CALL Semicolon | SENTENCIAS Return expression Semicolon | SENTENCIAS Break Semicolon {: if(!pila.buscarWhile()){
+                                                                                                                                                                                                                    System.out.println("Se está usando un break fuera de los bloques permitidos");
+                                                                                                                                                                                                                } :} | SENTENCIAS Continue Semicolon {: if(!pila.buscarWhile()){
+                                                                                                                                                                                                                    System.out.println("Se está usando un continue fuera de los bloques permitidos");
+                                                                                                                                                                                                                } :} |  ;
 
 
 
@@ -84,7 +114,9 @@ SENTENCIAS ::= SENTENCIAS ASIGNATION | SENTENCIAS WHILE | SENTENCIAS FOR | SENTE
 
 expression ::= expression Or expression | expression And expression | expression Equal expression | expression Equals expression | expression Same_Different_Op expression | expression Greater_Lesser_Op expression | expression Least_Important_Op expression | expression Most_Important_Op expression | expression QuestionMark expression Colon expression | ExclamationMark expression | O_Parentheses expression C_Parentheses | primaryExpression ;
 
-primaryExpression ::= Number | Hexadecimal | String | Boolean_Value | FUNC_CALL | Identifier | Body_Identifier ;
+primaryExpression ::= Number | Hexadecimal | String | Boolean_Value | FUNC_CALL | Identifier:ident {:if(!tablaSimbolos.buscarVariable(ident,pila.buscarAlcance())){
+                                                                                                        System.out.println("La variable " + ident + " no está definida en el scope");
+                                                                                                    }:} | Body_Identifier ;
 
 
 //Identificadores
@@ -103,15 +135,43 @@ EnumIds ::=  EnumIds Comma Identifier | Identifier ;
 
 //Declaración de variables
 
-VAR ::= Var_Type Var_PRIMA_PRIMA Semicolon ;
+VAR ::= Var_Type:type {:RS_Tipo reg = new RS_Tipo(type);
+                        pila.push(reg);
+                      :} Var_PRIMA_PRIMA Semicolon {:String value = "";
+                                                     if(pila.top().getTipoRS().equals("constante")){
+                                                        RS_DO reg = (RS_DO) pila.top();
+                                                        value = reg.getValor();
+                                                        pila.pop();
+                                                     }
+                                                     while(!pila.top().getTipoRS().equals("tipo")){
+                                                         RS_ID reg = (RS_ID) pila.pop();
+                                                         TokenVar t = new TokenVar();
+                                                         t.setTipo(pila.buscarRSTipo());
+                                                         t.setSubclase("variable");
+                                                         t.setAlcance(pila.buscarAlcance());
+                                                         t.setNombre(reg.getNombre());
+                                                         t.setValor(value);
+                                                         if(tablaSimbolos.buscarTokenVariable(t)){
+                                                             System.out.println("La variable " + reg.getNombre() + " ya fue declarada");
+                                                         }else{
+                                                             tablaSimbolos.agregarToken(t);
+                                                         }
+                                                     }
+                                                     pila.pop();
+                                                     :};
 
 VAR_PRIMA ::= Equal VAR_PRIMA_PRIMA_PRIMA |  ;
 
-VAR_PRIMA_PRIMA_PRIMA ::= expression | Array ;
+VAR_PRIMA_PRIMA_PRIMA ::= expression:exp {:RS_DO reg = new RS_DO(exp);
+                                           pila.push(reg);:} | Array ;
 
-Var_PRIMA_PRIMA ::= Privacy Identifier OTHER_IDENT VAR_PRIMA | O_Brackets C_Brackets Identifier OTHER_IDENT VAR_PRIMA ;
+Var_PRIMA_PRIMA ::= Privacy Identifier:ident {: RS_ID reg = new RS_ID(ident);
+                                                pila.push(reg);
+                                             :} OTHER_IDENT VAR_PRIMA | O_Brackets C_Brackets Identifier OTHER_IDENT VAR_PRIMA ;
 
-OTHER_IDENT ::= Comma Identifier OTHER_IDENT |  ;
+OTHER_IDENT ::= Comma Identifier:ident {: RS_ID reg = new RS_ID(ident);
+                                          pila.push(reg);
+                                       :} OTHER_IDENT |  ;
 
 Array ::= O_Brackets ArrayValue ArrayValue_PRIMA C_Brackets ;
 
@@ -133,7 +193,9 @@ StructVar ::= StructVar VAR | VAR ;
 
 //Asignacion de variables
 //puede estar en funcion
-ASIGNATION ::= Identifier Equal ASIGNATION_PRIMA Semicolon | Body_Identifier Equal ASIGNATION_PRIMA Semicolon ;
+ASIGNATION ::= Identifier:ident {:if(!tablaSimbolos.buscarVariable(ident,pila.buscarAlcance())){
+                                    System.out.println("La variable " + ident + " no está definida en el scope");
+                                }:} Equal ASIGNATION_PRIMA Semicolon | Body_Identifier Equal ASIGNATION_PRIMA Semicolon ;
 
 ASIGNATION_PRIMA ::= expression | Array ;
 
@@ -150,7 +212,8 @@ FUNC_CALL_PARAMETERS_PRIMA ::= Comma expression FUNC_CALL_PARAMETERS_PRIMA |  ;
 
 //Estructuras de control
 //puede estar en función
-WHILE ::= While O_Parentheses expression C_Parentheses O_Braces SENTENCIAS C_Braces ;
+WHILE ::= While {:RS_While reg = new RS_While();
+                pila.push(reg);:} O_Parentheses expression C_Parentheses O_Braces SENTENCIAS C_Braces {:pila.pop();:} ;
 
 FOR ::= For O_Parentheses ASIGNATION expression Semicolon expression C_Parentheses O_Braces SENTENCIAS C_Braces ;
 

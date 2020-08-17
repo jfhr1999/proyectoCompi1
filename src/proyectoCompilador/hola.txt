@@ -1,0 +1,19 @@
+pragma solidity ^0.2.1;
+
+contract Contrato {
+	int x,y,z;
+
+	function func1(){
+		int a,b,c;
+		while(True){
+			break;
+		}
+		z = y + x - c;
+	}
+
+	function func2(){
+		int a,b;
+		x = 1 + a;
+		b = 5 - c;
+	}
+}

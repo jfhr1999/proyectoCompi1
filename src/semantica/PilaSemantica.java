@@ -66,10 +66,37 @@ public class PilaSemantica {
         return existe;
     }
     
+    public String buscarRSTipo(){
+        Nodo aux = inicio;
+        while(aux != null){
+            if (aux.getValor().getTipoRS().equals("tipo")) { 
+                RS_Tipo id = (RS_Tipo) aux.getValor();
+                return id.getTipo();
+            }
+            else{
+                aux = aux.getSiguiente();
+            }
+        }
+        return "";
+    }
+    
+    public String buscarAlcance(){
+        Nodo aux = inicio;
+        while(aux != null){
+            if (aux.getValor().getTipoRS().equals("funcion")) { 
+                RS_Funcion id = (RS_Funcion) aux.getValor();
+                return id.getNombre();
+            }
+            else{
+                aux = aux.getSiguiente();
+            }
+        }
+        return "global";
+    }
+    
     public boolean buscarWhile(){
         Nodo aux = inicio;
-        boolean existe = false;
-        while(existe != true && aux != null){
+        while(aux != null){
             if (aux.getValor().getTipoRS().equals("while")) { 
                 return true;
             }
@@ -77,12 +104,20 @@ public class PilaSemantica {
                 aux = aux.getSiguiente();
             }
         }
-        return existe;
+        return false;
     }
     
     public void clear(){
         inicio = null;
         tamanio = 0;
+    }
+    
+    public void printPila(){
+        Nodo aux = inicio;
+        while(aux != null){
+            System.out.println("Registro: " + aux.getValor().tipoRS);
+            aux = aux.getSiguiente();
+        }
     }
     
 }

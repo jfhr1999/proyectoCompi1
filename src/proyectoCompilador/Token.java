@@ -5,13 +5,9 @@ public class Token{
     protected String nombre = ""; //Identifier
     protected String tipo = "";
     protected String subclase = "";
-    protected String ambito = "";
+    protected String alcance;
 
-    public Token(String nombre, String tipo, String subclase, String ambito){
-        this.nombre = nombre;
-        this.tipo = tipo;
-        this.subclase = subclase;
-        this.ambito = ambito;
+    public Token(){
     }
 
     public void setNombre(String pNombre){
@@ -25,17 +21,17 @@ public class Token{
     public void setTipo(String pTipo){
         tipo = pTipo;
     }
+    
+    public String getAlcance() {
+        return alcance;
+    }
+
+    public void setAlcance(String alcance) {
+        this.alcance = alcance;
+    }
 
     public String getTipo(){
         return tipo;
-    }
-
-    public void setAmbito(String pAmbito){
-        ambito = pAmbito;
-    }
-
-    public String getAmbito(){
-        return ambito;
     }
 
     public void setSubclase(String pSubclase){
@@ -48,11 +44,10 @@ public class Token{
 
     public String toString(){
         String res = "";
-        res += "TOKEN/n";
-        res += "Nombre: " + nombre + "/n";
-        res += "Subclase: " + subclase + "/n";
-        res += "Tipo: " + tipo + "/n";
-        res += "Ambito: " + ambito + "/n";
+        res += "TOKEN\n";
+        res += "Nombre: " + nombre + "\n";
+        res += "Subclase: " + subclase + "\n";
+        res += "Tipo: " + tipo + "\n";
         return res;
     }
 }
