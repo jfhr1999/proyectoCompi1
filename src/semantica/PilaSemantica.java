@@ -66,13 +66,12 @@ public class PilaSemantica {
         return existe;
     }
     
-    public boolean buscarWhile(RS_While referencia){
+    public boolean buscarWhile(){
         Nodo aux = inicio;
         boolean existe = false;
         while(existe != true && aux != null){
-            if (referencia.getTipoRS().equals(aux.getValor().getTipoRS())) { 
-                existe = true;
-                break;
+            if (aux.getValor().getTipoRS().equals("while")) { 
+                return true;
             }
             else{
                 aux = aux.getSiguiente();
