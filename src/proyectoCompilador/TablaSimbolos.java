@@ -48,6 +48,17 @@ class TablaSimbolos {
         return false;
     }
     
+    public String buscarTipoVariable(String nombre, String scope){
+        for(Token t : simbolos){
+            if(t.getNombre().equals(nombre)){
+                if(t.getAlcance().equals(scope) || t.getAlcance().equals("global")){
+                    return t.tipo;
+                }
+            }
+        }
+        return "error";
+    } 
+    
     public String toString(){
         String res = "";
         res += "-------TABLA SIMBOLOS-------\n";

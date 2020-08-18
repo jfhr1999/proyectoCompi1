@@ -26,8 +26,8 @@ action code
 :}
 
 
-terminal FUNC_BODY,Reserved,Transac,Units,Operator,ERROR,String,Hexadecimal,Version,Boolean_Value,Modifier,Number,ExclamationMark,And,Or,Most_Important_Op,Least_Important_Op,Greater_Lesser_Op,Same_Different_Op,Equals,Pragma,Solidity,Caret,Contract,Enum,Public,Private,Struct,Function,Returns,Return,This,While,Do,For,If,Else,Break,Continue,O_Braces,C_Braces,O_Brackets,C_Brackets,O_Parentheses,C_Parentheses,Equal,Comma,Semicolon,Period,QuestionMark,Colon;
-terminal String Identifier, Var_Type;
+terminal Or,And,FUNC_BODY,Reserved,Transac,Units,Operator,ERROR,Hexadecimal,Version,Modifier,ExclamationMark,Most_Important_Op,Equals,Pragma,Solidity,Caret,Contract,Enum,Public,Private,Struct,Function,Returns,Return,This,While,Do,For,If,Else,Break,Continue,O_Braces,C_Braces,O_Brackets,C_Brackets,O_Parentheses,C_Parentheses,Equal,Comma,Semicolon,Period,QuestionMark,Colon;
+terminal String Identifier, Var_Type, Number, Same_Different_Op, Greater_Lesser_Op, Least_Important_Op, String, Boolean_Value;
 //terminal String ;
 
 nonterminal OTHER_IDENT,Enums,Variables,Structs,Functions,Modifiers,EnumIds,Privacy,ArrayValue,Array,StructVar,Function_Parameters,FUNC_CALL_PARAMETERS,FUNC_CALL_PARAMETERS_PRIMA,ASIGNATION_PRIMA,Function_Parameters_PRIMA,ArrayValue_PRIMA,ArrayValue_PRIMA_PRIMA,Body_Identifier,Body_Identifier_PRIMA,START,CONTRACT,ENUM,VAR,STRUCT,FUNCTION,ASIGNATION,FUNC_CALL,WHILE,FOR,DO,IF,ELSE,VAR_PRIMA,VAR_PRIMA_PRIMA_PRIMA,Var_PRIMA_PRIMA,RETURNS,primaryExpression,SENTENCIAS;
@@ -103,8 +103,8 @@ RETURNS ::= Returns O_Parentheses Var_Type Identifier C_Parentheses |  ;
 SENTENCIAS ::= SENTENCIAS ASIGNATION | SENTENCIAS WHILE | SENTENCIAS FOR | SENTENCIAS DO | SENTENCIAS IF | SENTENCIAS FUNC_CALL Semicolon | SENTENCIAS Return expression Semicolon | SENTENCIAS Break Semicolon {: if(!pila.buscarWhile()){
                                                                                                                                                                                                                     System.out.println("Se está usando un break fuera de los bloques permitidos");
                                                                                                                                                                                                                 } :} | SENTENCIAS Continue Semicolon {: if(!pila.buscarWhile()){
-                                                                                                                                                                                                                    System.out.println("Se está usando un continue fuera de los bloques permitidos");
-                                                                                                                                                                                                                } :} |  ;
+                                                                                                                                                                                                                                                            System.out.println("Se está usando un continue fuera de los bloques permitidos");
+                                                                                                                                                                                                                                                        } :} |  ;
 
 
 
@@ -112,11 +112,78 @@ SENTENCIAS ::= SENTENCIAS ASIGNATION | SENTENCIAS WHILE | SENTENCIAS FOR | SENTE
 //Expresiones
 //puede estar en funcion
 
-expression ::= expression Or expression | expression And expression | expression Equal expression | expression Equals expression | expression Same_Different_Op expression | expression Greater_Lesser_Op expression | expression Least_Important_Op expression | expression Most_Important_Op expression | expression QuestionMark expression Colon expression | ExclamationMark expression | O_Parentheses expression C_Parentheses | primaryExpression ;
+expression ::= expression Or expression {:RS_DO reg3 = (RS_DO)pila.pop();
+                                        RS_DO reg1 = (RS_DO)pila.pop();
+                                        if(reg1.getTipo().equals(reg3.getTipo()) && reg1.getTipo().equals("bool")){
+                                            String str = reg1.getValor() + "||" + reg3.getValor();
+                                            RS_DO reg = new RS_DO(str);
+                                            reg.setTipo("bool");
+                                            pila.push(reg);
+                                        }else{
+                                            System.out.println("Error de tipos en la operación Or");
+                                        }:} | expression And expression {:RS_DO reg3 = (RS_DO)pila.pop();
+                                                                        RS_DO reg1 = (RS_DO)pila.pop();
+                                                                        if(reg1.getTipo().equals(reg3.getTipo()) && reg1.getTipo().equals("bool")){
+                                                                            String str = reg1.getValor() + "&&" + reg3.getValor();
+                                                                            RS_DO reg = new RS_DO(str);
+                                                                            reg.setTipo("bool");
+                                                                            pila.push(reg);
+                                                                        }else{
+                                                                            System.out.println("Error de tipos en la operación And");
+                                                                        }:} | expression Equal expression | expression Equals expression | expression Same_Different_Op:op expression {:RS_DO reg3 = (RS_DO)pila.pop();
+                                                                                                                                                                                        RS_DO reg1 = (RS_DO)pila.pop();
+                                                                                                                                                                                        if(reg1.getTipo().equals(reg3.getTipo()) && reg1.getTipo().equals("bool")){
+                                                                                                                                                                                            String str = reg1.getValor() + op + reg3.getValor();
+                                                                                                                                                                                            RS_DO reg = new RS_DO(str);
+                                                                                                                                                                                            reg.setTipo("bool");
+                                                                                                                                                                                            pila.push(reg);
+                                                                                                                                                                                        }else{
+                                                                                                                                                                                            System.out.println("Error de tipos en la operación de comparación");
+                                                                                                                                                                                        }:} | expression Greater_Lesser_Op:op expression {:RS_DO reg3 = (RS_DO)pila.pop();
+                                                                                                                                                                                                                                            RS_DO reg1 = (RS_DO)pila.pop();
+                                                                                                                                                                                                                                            if(reg1.getTipo().equals(reg3.getTipo()) && reg1.getTipo().equals("int")){
+                                                                                                                                                                                                                                                String str = reg1.getValor() + op + reg3.getValor();
+                                                                                                                                                                                                                                                RS_DO reg = new RS_DO(str);
+                                                                                                                                                                                                                                                reg.setTipo("bool");
+                                                                                                                                                                                                                                                pila.push(reg);
+                                                                                                                                                                                                                                            }else{
+                                                                                                                                                                                                                                                System.out.println("Error de tipos en la operación de comparación");
+                                                                                                                                                                                                                                            }:} | expression Least_Important_Op:op expression {:RS_DO reg3 = (RS_DO)pila.pop();
+                                                                                                                                                                                                                                                                                            RS_DO reg1 = (RS_DO)pila.pop();
+                                                                                                                                                                                                                                                                                            if(reg1.getTipo().equals(reg3.getTipo()) && reg1.getTipo().equals("int")){
+                                                                                                                                                                                                                                                                                                if(reg1.getTipoRS().equals("constante") && reg3.getTipoRS().equals("constante")){
+                                                                                                                                                                                                                                                                                                    if(op.equals("+")){
+                                                                                                                                                                                                                                                                                                        int num1 = Integer.parseInt(reg1.getValor());
+                                                                                                                                                                                                                                                                                                        int num2 = Integer.parseInt(reg3.getValor());
+                                                                                                                                                                                                                                                                                                        int result = num1 + num2;
+                                                                                                                                                                                                                                                                                                        RS_DO reg = new RS_DO(Integer.toString(result),"int");
+                                                                                                                                                                                                                                                                                                        pila.push(reg);
+                                                                                                                                                                                                                                                                                                    }else{
+                                                                                                                                                                                                                                                                                                        int num1 = Integer.parseInt(reg1.getValor());
+                                                                                                                                                                                                                                                                                                        int num2 = Integer.parseInt(reg3.getValor());
+                                                                                                                                                                                                                                                                                                        int result = num1 - num2;
+                                                                                                                                                                                                                                                                                                        RS_DO reg = new RS_DO(Integer.toString(result),"int");
+                                                                                                                                                                                                                                                                                                        pila.push(reg);
+                                                                                                                                                                                                                                                                                                    }
+                                                                                                                                                                                                                                                                                                }else{
+                                                                                                                                                                                                                                                                                                    String str = reg1.getValor() + op + reg3.getValor();
+                                                                                                                                                                                                                                                                                                    RS_DO reg = new RS_DO(str);
+                                                                                                                                                                                                                                                                                                    reg.setTipo("int");
+                                                                                                                                                                                                                                                                                                    pila.push(reg);
+                                                                                                                                                                                                                                                                                                }
+                                                                                                                                                                                                                                                                                            }else{
+                                                                                                                                                                                                                                                                                                System.out.println("Error de tipos en la operación aritmetica");
+                                                                                                                                                                                                                                                                                            }:} | expression Most_Important_Op expression | expression QuestionMark expression Colon expression | ExclamationMark expression | O_Parentheses expression C_Parentheses | primaryExpression ;
 
-primaryExpression ::= Number | Hexadecimal | String | Boolean_Value | FUNC_CALL | Identifier:ident {:if(!tablaSimbolos.buscarVariable(ident,pila.buscarAlcance())){
-                                                                                                        System.out.println("La variable " + ident + " no está definida en el scope");
-                                                                                                    }:} | Body_Identifier ;
+primaryExpression ::= Number:num{:RS_DO reg = new RS_DO(num,"int");
+                                pila.push(reg);:} | Hexadecimal | String:str {:RS_DO reg = new RS_DO(str,"string");
+                                                                            pila.push(reg);:} | Boolean_Value:bool {:RS_DO reg = new RS_DO(bool,"bool");
+                                                                                                                    pila.push(reg);:} | FUNC_CALL | Identifier:ident {:if(!tablaSimbolos.buscarVariable(ident,pila.buscarAlcance())){
+                                                                                                                                                                            System.out.println("La variable " + ident + " no está definida en el scope");
+                                                                                                                                                                        }else{
+                                                                                                                                                                            RS_DO reg = new RS_DO("",ident,tablaSimbolos.buscarTipoVariable(ident,pila.buscarAlcance()));
+                                                                                                                                                                            pila.push(reg);
+                                                                                                                                                                        }:} | Body_Identifier ;
 
 
 //Identificadores
@@ -134,13 +201,16 @@ EnumIds ::=  EnumIds Comma Identifier | Identifier ;
 
 
 //Declaración de variables
-
+//puede estropearse
 VAR ::= Var_Type:type {:RS_Tipo reg = new RS_Tipo(type);
                         pila.push(reg);
                       :} Var_PRIMA_PRIMA Semicolon {:String value = "";
-                                                     if(pila.top().getTipoRS().equals("constante")){
+                                                     if(pila.top().getTipoRS().equals("constante") || pila.top().getTipoRS().equals("expresion") || pila.top().getTipoRS().equals("direccion")){
                                                         RS_DO reg = (RS_DO) pila.top();
                                                         value = reg.getValor();
+                                                        if(!reg.getTipo().equals(pila.buscarRSTipo())){
+                                                            System.out.println("Error en la declaración de variables: Los tipos de datos no son iguales");
+                                                        }
                                                         pila.pop();
                                                      }
                                                      while(!pila.top().getTipoRS().equals("tipo")){
@@ -162,8 +232,7 @@ VAR ::= Var_Type:type {:RS_Tipo reg = new RS_Tipo(type);
 
 VAR_PRIMA ::= Equal VAR_PRIMA_PRIMA_PRIMA |  ;
 
-VAR_PRIMA_PRIMA_PRIMA ::= expression:exp {:RS_DO reg = new RS_DO(exp);
-                                           pila.push(reg);:} | Array ;
+VAR_PRIMA_PRIMA_PRIMA ::= expression | Array ;
 
 Var_PRIMA_PRIMA ::= Privacy Identifier:ident {: RS_ID reg = new RS_ID(ident);
                                                 pila.push(reg);
@@ -175,11 +244,11 @@ OTHER_IDENT ::= Comma Identifier:ident {: RS_ID reg = new RS_ID(ident);
 
 Array ::= O_Brackets ArrayValue ArrayValue_PRIMA C_Brackets ;
 
-ArrayValue ::= expression | Array |  ;
+ArrayValue ::= expression {:pila.pop();:} | Array |  ;
 
 ArrayValue_PRIMA ::= Comma ArrayValue_PRIMA_PRIMA |  ;
 
-ArrayValue_PRIMA_PRIMA ::= expression | Array ;
+ArrayValue_PRIMA_PRIMA ::= expression {:pila.pop();:} | Array ;
 
 Privacy ::= Public | Private |  ;
 
@@ -192,10 +261,18 @@ StructVar ::= StructVar VAR | VAR ;
 
 
 //Asignacion de variables
-//puede estar en funcion
+//puede estropearse
 ASIGNATION ::= Identifier:ident {:if(!tablaSimbolos.buscarVariable(ident,pila.buscarAlcance())){
                                     System.out.println("La variable " + ident + " no está definida en el scope");
-                                }:} Equal ASIGNATION_PRIMA Semicolon | Body_Identifier Equal ASIGNATION_PRIMA Semicolon ;
+                                }else{
+                                    RS_Tipo reg = new RS_Tipo(tablaSimbolos.buscarTipoVariable(ident, pila.buscarAlcance()));
+                                    pila.push(reg);
+                                }:} Equal ASIGNATION_PRIMA Semicolon {:RS_DO reg = (RS_DO) pila.top();
+                                                                        if(!reg.getTipo().equals(pila.buscarRSTipo())){
+                                                                            System.out.println("Error en la declaración de variables: Los tipos de datos no son iguales");
+                                                                        }
+                                                                        pila.pop();
+                                                                        pila.pop();:} | Body_Identifier Equal ASIGNATION_PRIMA Semicolon ;
 
 ASIGNATION_PRIMA ::= expression | Array ;
 
@@ -204,22 +281,28 @@ ASIGNATION_PRIMA ::= expression | Array ;
 //puede estar en funcion
 FUNC_CALL ::= Identifier O_Parentheses FUNC_CALL_PARAMETERS C_Parentheses ;
 
-FUNC_CALL_PARAMETERS ::= expression FUNC_CALL_PARAMETERS_PRIMA |  ;
+FUNC_CALL_PARAMETERS ::= expression {:pila.pop();:} FUNC_CALL_PARAMETERS_PRIMA |  ;
 
-FUNC_CALL_PARAMETERS_PRIMA ::= Comma expression FUNC_CALL_PARAMETERS_PRIMA |  ;
+FUNC_CALL_PARAMETERS_PRIMA ::= Comma expression {:pila.pop();:} FUNC_CALL_PARAMETERS_PRIMA |  ;
 
 
 
 //Estructuras de control
 //puede estar en función
 WHILE ::= While {:RS_While reg = new RS_While();
-                pila.push(reg);:} O_Parentheses expression C_Parentheses O_Braces SENTENCIAS C_Braces {:pila.pop();:} ;
+                pila.push(reg);:} O_Parentheses expression {:RS_DO reg = (RS_DO)pila.pop();
+                                                            if(!reg.getTipo().equals("bool")){
+                                                                System.out.println("Error en la declaración del While: La expresión debe ser booleana");
+                                                            }:} C_Parentheses O_Braces SENTENCIAS C_Braces {:pila.pop();:} ;
 
-FOR ::= For O_Parentheses ASIGNATION expression Semicolon expression C_Parentheses O_Braces SENTENCIAS C_Braces ;
+FOR ::= For O_Parentheses ASIGNATION expression {:pila.pop();:} Semicolon expression {:pila.pop();:} C_Parentheses O_Braces SENTENCIAS C_Braces ;
 
-DO ::= Do O_Braces SENTENCIAS C_Braces While O_Parentheses expression C_Parentheses Semicolon ;
+DO ::= Do O_Braces SENTENCIAS C_Braces While O_Parentheses expression {:pila.pop();:} C_Parentheses Semicolon ;
 
-IF ::= If O_Parentheses expression C_Parentheses O_Braces SENTENCIAS C_Braces ELSE ;
+IF ::= If O_Parentheses expression {:RS_DO reg = (RS_DO)pila.pop();
+                                    if(!reg.getTipo().equals("bool")){
+                                        System.out.println("Error en la declaración del While: La expresión debe ser booleana");
+                                    }:} C_Parentheses O_Braces SENTENCIAS C_Braces ELSE ;
 
 ELSE ::= Else O_Braces SENTENCIAS C_Braces |  ;
 

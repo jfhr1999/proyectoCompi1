@@ -120,4 +120,14 @@ public class PilaSemantica {
         }
     }
     
+    public boolean isEqualToken(RS_Base reg){
+        if(RS_DO.class.isInstance(reg)){
+            RS_DO reg2 = (RS_DO)reg;
+            if(reg2.getValor().equals("=") && reg2.getValor().equals("equal")){
+                return true;
+            }
+        }
+        return false;
+    }
+    
 }

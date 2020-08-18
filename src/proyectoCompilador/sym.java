@@ -8,83 +8,77 @@ package proyectoCompilador;
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
-  public static final int Equals = 21;
-  public static final int Period = 50;
-  public static final int Comma = 48;
-  public static final int Or = 16;
-  public static final int FUNC_BODY = 2;
-  public static final int Hexadecimal = 9;
-  public static final int If = 37;
-  public static final int Caret = 24;
-  public static final int Equal = 47;
-  public static final int Most_Important_Op = 17;
-  public static final int ExclamationMark = 14;
-  public static final int Else = 38;
-  public static final int QuestionMark = 51;
-  public static final int Break = 39;
-  public static final int Enum = 26;
-  public static final int Semicolon = 49;
-  public static final int Returns = 31;
-  public static final int Colon = 52;
-  public static final int C_Parentheses = 46;
-  public static final int Operator = 6;
-  public static final int Greater_Lesser_Op = 19;
-  public static final int Return = 32;
-  public static final int Pragma = 22;
-  public static final int While = 34;
-  public static final int Boolean_Value = 11;
-  public static final int O_Brackets = 43;
-  public static final int O_Braces = 41;
-  public static final int For = 36;
-  public static final int Number = 13;
+  public static final int Equals = 15;
+  public static final int Period = 44;
+  public static final int Comma = 42;
+  public static final int Or = 2;
+  public static final int FUNC_BODY = 4;
+  public static final int Hexadecimal = 10;
+  public static final int Caret = 18;
+  public static final int If = 31;
+  public static final int Equal = 41;
+  public static final int Most_Important_Op = 14;
+  public static final int ExclamationMark = 13;
+  public static final int Else = 32;
+  public static final int QuestionMark = 45;
+  public static final int Enum = 20;
+  public static final int Break = 33;
+  public static final int Semicolon = 43;
+  public static final int Returns = 25;
+  public static final int Colon = 46;
+  public static final int C_Parentheses = 40;
+  public static final int Operator = 8;
+  public static final int Greater_Lesser_Op = 51;
+  public static final int Return = 26;
+  public static final int Pragma = 16;
+  public static final int While = 28;
+  public static final int Boolean_Value = 54;
+  public static final int O_Brackets = 37;
+  public static final int O_Braces = 35;
+  public static final int For = 30;
+  public static final int Number = 49;
   public static final int EOF = 0;
-  public static final int Reserved = 3;
-  public static final int C_Braces = 42;
-  public static final int Function = 30;
-  public static final int And = 15;
+  public static final int Reserved = 5;
+  public static final int C_Braces = 36;
+  public static final int Function = 24;
+  public static final int And = 3;
   public static final int error = 1;
-  public static final int Solidity = 23;
-  public static final int Same_Different_Op = 20;
-  public static final int Contract = 25;
-  public static final int Private = 28;
-  public static final int Identifier = 53;
-  public static final int Do = 35;
-  public static final int ERROR = 7;
-  public static final int Transac = 4;
-  public static final int Continue = 40;
-  public static final int Var_Type = 54;
-  public static final int Units = 5;
-  public static final int Public = 27;
+  public static final int Solidity = 17;
+  public static final int Same_Different_Op = 50;
+  public static final int Contract = 19;
+  public static final int Private = 22;
+  public static final int Identifier = 47;
+  public static final int Do = 29;
+  public static final int ERROR = 9;
+  public static final int Transac = 6;
+  public static final int Continue = 34;
+  public static final int Var_Type = 48;
+  public static final int Units = 7;
+  public static final int Public = 21;
   public static final int Modifier = 12;
-  public static final int String = 8;
-  public static final int O_Parentheses = 45;
-  public static final int Version = 10;
-  public static final int Struct = 29;
-  public static final int C_Brackets = 44;
-  public static final int This = 33;
-  public static final int Least_Important_Op = 18;
+  public static final int String = 53;
+  public static final int O_Parentheses = 39;
+  public static final int Version = 11;
+  public static final int Struct = 23;
+  public static final int C_Brackets = 38;
+  public static final int This = 27;
+  public static final int Least_Important_Op = 52;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
+  "Or",
+  "And",
   "FUNC_BODY",
   "Reserved",
   "Transac",
   "Units",
   "Operator",
   "ERROR",
-  "String",
   "Hexadecimal",
   "Version",
-  "Boolean_Value",
   "Modifier",
-  "Number",
   "ExclamationMark",
-  "And",
-  "Or",
   "Most_Important_Op",
-  "Least_Important_Op",
-  "Greater_Lesser_Op",
-  "Same_Different_Op",
   "Equals",
   "Pragma",
   "Solidity",
@@ -118,7 +112,13 @@ public class sym {
   "QuestionMark",
   "Colon",
   "Identifier",
-  "Var_Type"
+  "Var_Type",
+  "Number",
+  "Same_Different_Op",
+  "Greater_Lesser_Op",
+  "Least_Important_Op",
+  "String",
+  "Boolean_Value"
   };
 }
 

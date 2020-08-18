@@ -8,12 +8,15 @@ contract Contrato {
 		while(True){
 			break;
 		}
-		z = y + x - c;
+		z = y + x;
+		return a;
 	}
 
-	function func2(){
+	function func2() returns(int x){
 		int a,b;
+		bool v = True;
 		x = 1 + a;
-		b = 5 - c;
+		v = v || False;
+		x = 4 + True;
 	}
 }
