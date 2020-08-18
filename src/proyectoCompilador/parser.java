@@ -504,6 +504,7 @@ class CUP$parser$actions {
     //String tmp="";
     TablaSimbolos tablaSimbolos = new TablaSimbolos();
     PilaSemantica pila = new PilaSemantica();
+    boolean r = false;
 
   private final parser parser;
 
@@ -654,7 +655,10 @@ RS_Funcion reg = new RS_Funcion(ident);
 		int identleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-10)).left;
 		int identright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-10)).right;
 		String ident = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-10)).value;
-
+		if (r){
+                                                                                                                                                                        System.out.println("Error: La función no tiene la sentencia return");
+                                                                                                                                                                        r = false;
+                                                                                                                                                                    }
               CUP$parser$result = parser.getSymbolFactory().newSymbol("FUNCTION",25, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-11)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -801,7 +805,7 @@ TokenVar t = new TokenVar();
           case 23: // RETURNS ::= Returns O_Parentheses Var_Type Identifier C_Parentheses 
             {
               Object RESULT =null;
-
+		r = true;
               CUP$parser$result = parser.getSymbolFactory().newSymbol("RETURNS",36, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -873,7 +877,11 @@ TokenVar t = new TokenVar();
           case 31: // SENTENCIAS ::= SENTENCIAS Return expression Semicolon 
             {
               Object RESULT =null;
-
+		if(r){
+                                                                                                                                                                                        r = false;
+                                                                                                                                                                                    }else{
+                                                                                                                                                                                        System.out.println("Error: La función no necesita un return");
+                                                                                                                                                                                    }
               CUP$parser$result = parser.getSymbolFactory().newSymbol("SENTENCIAS",38, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -922,6 +930,8 @@ TokenVar t = new TokenVar();
                                             pila.push(reg);
                                         }else{
                                             System.out.println("Error de tipos en la operación Or");
+                                            RS_DO reg = new RS_DO("NULL");
+                                            pila.push(reg);
                                         }
               CUP$parser$result = parser.getSymbolFactory().newSymbol("expression",39, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -940,6 +950,8 @@ TokenVar t = new TokenVar();
                                                                             pila.push(reg);
                                                                         }else{
                                                                             System.out.println("Error de tipos en la operación And");
+                                                                            RS_DO reg = new RS_DO("NULL");
+                                                                            pila.push(reg);
                                                                         }
               CUP$parser$result = parser.getSymbolFactory().newSymbol("expression",39, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -979,6 +991,8 @@ TokenVar t = new TokenVar();
                                                                                                                                                                                             pila.push(reg);
                                                                                                                                                                                         }else{
                                                                                                                                                                                             System.out.println("Error de tipos en la operación de comparación");
+                                                                                                                                                                                            RS_DO reg = new RS_DO("NULL");
+                                                                                                                                                                                            pila.push(reg);
                                                                                                                                                                                         }
               CUP$parser$result = parser.getSymbolFactory().newSymbol("expression",39, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -1000,6 +1014,8 @@ TokenVar t = new TokenVar();
                                                                                                                                                                                                                                                 pila.push(reg);
                                                                                                                                                                                                                                             }else{
                                                                                                                                                                                                                                                 System.out.println("Error de tipos en la operación de comparación");
+                                                                                                                                                                                                                                                RS_DO reg = new RS_DO("NULL");
+                                                                                                                                                                                                                                                pila.push(reg);
                                                                                                                                                                                                                                             }
               CUP$parser$result = parser.getSymbolFactory().newSymbol("expression",39, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -1037,6 +1053,8 @@ TokenVar t = new TokenVar();
                                                                                                                                                                                                                                                                                                 }
                                                                                                                                                                                                                                                                                             }else{
                                                                                                                                                                                                                                                                                                 System.out.println("Error de tipos en la operación aritmetica");
+                                                                                                                                                                                                                                                                                                RS_DO reg = new RS_DO("Null");
+                                                                                                                                                                                                                                                                                                pila.push(reg);
                                                                                                                                                                                                                                                                                             }
               CUP$parser$result = parser.getSymbolFactory().newSymbol("expression",39, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -1549,7 +1567,7 @@ if(!tablaSimbolos.buscarVariable(ident,pila.buscarAlcance())){
 		String ident = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-4)).value;
 		RS_DO reg = (RS_DO) pila.top();
                                                                         if(!reg.getTipo().equals(pila.buscarRSTipo())){
-                                                                            System.out.println("Error en la declaración de variables: Los tipos de datos no son iguales");
+                                                                            System.out.println("Error en la asignacion de variables: Los tipos de datos no son iguales");
                                                                         }
                                                                         pila.pop();
                                                                         pila.pop();

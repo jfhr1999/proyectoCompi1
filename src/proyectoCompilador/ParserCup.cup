@@ -23,6 +23,7 @@ action code
     //String tmp="";
     TablaSimbolos tablaSimbolos = new TablaSimbolos();
     PilaSemantica pila = new PilaSemantica();
+    boolean r = false;
 :}
 
 
@@ -67,7 +68,10 @@ Functions ::= Functions FUNCTION |  ;
 //Funciones
 //LAS DECLARACIONES DE VARIABLES SOLO PUEDEN IR AL PRINCIPIO DE LA FUNCION
 FUNCTION ::= Function Identifier:ident {:RS_Funcion reg = new RS_Funcion(ident);
-                                        pila.push(reg);:} O_Parentheses Function_Parameters C_Parentheses Modifiers RETURNS O_Braces Variables SENTENCIAS C_Braces ;
+                                        pila.push(reg);:} O_Parentheses Function_Parameters C_Parentheses Modifiers RETURNS O_Braces Variables SENTENCIAS C_Braces {:if (r){
+                                                                                                                                                                        System.out.println("Error: La función no tiene la sentencia return");
+                                                                                                                                                                        r = false;
+                                                                                                                                                                    }:};
 
 Function_Parameters ::= Var_Type:type Identifier:ident {:TokenVar t = new TokenVar();
                                                         t.setNombre(ident);
@@ -95,12 +99,16 @@ Function_Parameters_PRIMA ::= Comma Var_Type:type Identifier:ident {:TokenVar t 
 
 Modifiers ::= Public Modifiers | Private Modifiers | Modifier Modifiers |  ;
 
-RETURNS ::= Returns O_Parentheses Var_Type Identifier C_Parentheses |  ;
+RETURNS ::= Returns O_Parentheses Var_Type Identifier C_Parentheses {:r = true;:} |  ;
 
 
 //Sentencias
 
-SENTENCIAS ::= SENTENCIAS ASIGNATION | SENTENCIAS WHILE | SENTENCIAS FOR | SENTENCIAS DO | SENTENCIAS IF | SENTENCIAS FUNC_CALL Semicolon | SENTENCIAS Return expression Semicolon | SENTENCIAS Break Semicolon {: if(!pila.buscarWhile()){
+SENTENCIAS ::= SENTENCIAS ASIGNATION | SENTENCIAS WHILE | SENTENCIAS FOR | SENTENCIAS DO | SENTENCIAS IF | SENTENCIAS FUNC_CALL Semicolon | SENTENCIAS Return expression Semicolon {:if(r){
+                                                                                                                                                                                        r = false;
+                                                                                                                                                                                    }else{
+                                                                                                                                                                                        System.out.println("Error: La función no necesita un return");
+                                                                                                                                                                                    }:} | SENTENCIAS Break Semicolon {: if(!pila.buscarWhile()){
                                                                                                                                                                                                                     System.out.println("Se está usando un break fuera de los bloques permitidos");
                                                                                                                                                                                                                 } :} | SENTENCIAS Continue Semicolon {: if(!pila.buscarWhile()){
                                                                                                                                                                                                                                                             System.out.println("Se está usando un continue fuera de los bloques permitidos");
@@ -121,6 +129,8 @@ expression ::= expression Or expression {:RS_DO reg3 = (RS_DO)pila.pop();
                                             pila.push(reg);
                                         }else{
                                             System.out.println("Error de tipos en la operación Or");
+                                            RS_DO reg = new RS_DO("NULL");
+                                            pila.push(reg);
                                         }:} | expression And expression {:RS_DO reg3 = (RS_DO)pila.pop();
                                                                         RS_DO reg1 = (RS_DO)pila.pop();
                                                                         if(reg1.getTipo().equals(reg3.getTipo()) && reg1.getTipo().equals("bool")){
@@ -130,6 +140,8 @@ expression ::= expression Or expression {:RS_DO reg3 = (RS_DO)pila.pop();
                                                                             pila.push(reg);
                                                                         }else{
                                                                             System.out.println("Error de tipos en la operación And");
+                                                                            RS_DO reg = new RS_DO("NULL");
+                                                                            pila.push(reg);
                                                                         }:} | expression Equal expression | expression Equals expression | expression Same_Different_Op:op expression {:RS_DO reg3 = (RS_DO)pila.pop();
                                                                                                                                                                                         RS_DO reg1 = (RS_DO)pila.pop();
                                                                                                                                                                                         if(reg1.getTipo().equals(reg3.getTipo()) && reg1.getTipo().equals("bool")){
@@ -139,6 +151,8 @@ expression ::= expression Or expression {:RS_DO reg3 = (RS_DO)pila.pop();
                                                                                                                                                                                             pila.push(reg);
                                                                                                                                                                                         }else{
                                                                                                                                                                                             System.out.println("Error de tipos en la operación de comparación");
+                                                                                                                                                                                            RS_DO reg = new RS_DO("NULL");
+                                                                                                                                                                                            pila.push(reg);
                                                                                                                                                                                         }:} | expression Greater_Lesser_Op:op expression {:RS_DO reg3 = (RS_DO)pila.pop();
                                                                                                                                                                                                                                             RS_DO reg1 = (RS_DO)pila.pop();
                                                                                                                                                                                                                                             if(reg1.getTipo().equals(reg3.getTipo()) && reg1.getTipo().equals("int")){
@@ -148,6 +162,8 @@ expression ::= expression Or expression {:RS_DO reg3 = (RS_DO)pila.pop();
                                                                                                                                                                                                                                                 pila.push(reg);
                                                                                                                                                                                                                                             }else{
                                                                                                                                                                                                                                                 System.out.println("Error de tipos en la operación de comparación");
+                                                                                                                                                                                                                                                RS_DO reg = new RS_DO("NULL");
+                                                                                                                                                                                                                                                pila.push(reg);
                                                                                                                                                                                                                                             }:} | expression Least_Important_Op:op expression {:RS_DO reg3 = (RS_DO)pila.pop();
                                                                                                                                                                                                                                                                                             RS_DO reg1 = (RS_DO)pila.pop();
                                                                                                                                                                                                                                                                                             if(reg1.getTipo().equals(reg3.getTipo()) && reg1.getTipo().equals("int")){
@@ -173,6 +189,8 @@ expression ::= expression Or expression {:RS_DO reg3 = (RS_DO)pila.pop();
                                                                                                                                                                                                                                                                                                 }
                                                                                                                                                                                                                                                                                             }else{
                                                                                                                                                                                                                                                                                                 System.out.println("Error de tipos en la operación aritmetica");
+                                                                                                                                                                                                                                                                                                RS_DO reg = new RS_DO("Null");
+                                                                                                                                                                                                                                                                                                pila.push(reg);
                                                                                                                                                                                                                                                                                             }:} | expression Most_Important_Op expression | expression QuestionMark expression Colon expression | ExclamationMark expression | O_Parentheses expression C_Parentheses | primaryExpression ;
 
 primaryExpression ::= Number:num{:RS_DO reg = new RS_DO(num,"int");
@@ -269,7 +287,7 @@ ASIGNATION ::= Identifier:ident {:if(!tablaSimbolos.buscarVariable(ident,pila.bu
                                     pila.push(reg);
                                 }:} Equal ASIGNATION_PRIMA Semicolon {:RS_DO reg = (RS_DO) pila.top();
                                                                         if(!reg.getTipo().equals(pila.buscarRSTipo())){
-                                                                            System.out.println("Error en la declaración de variables: Los tipos de datos no son iguales");
+                                                                            System.out.println("Error en la asignacion de variables: Los tipos de datos no son iguales");
                                                                         }
                                                                         pila.pop();
                                                                         pila.pop();:} | Body_Identifier Equal ASIGNATION_PRIMA Semicolon ;
